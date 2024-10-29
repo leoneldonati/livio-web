@@ -1,47 +1,32 @@
-# Astro Starter Kit: Minimal
+# Livio - Red Social Minimalista
 
-```sh
-npm create astro@latest -- --template minimal
+Livio es una red social moderna diseñada para ofrecer una experiencia de conexión y comunidad accesible, centrada en compartir momentos y conectar con otros de forma sencilla. Con un enfoque en el diseño limpio y minimalista, Livio busca ser un espacio donde los usuarios puedan expresarse y relacionarse en un entorno amigable y sin distracciones.
+
+## Características Principales
+- **Perfil de Usuario Personalizado**: Cada usuario puede crear su perfil y personalizarlo para compartir sus intereses y conectarse con otros.
+- **Timeline**: Flujo de publicaciones en tiempo real, donde los usuarios pueden compartir texto, imágenes y reaccionar a las publicaciones de otros.
+- **Explorar**: Descubre contenido nuevo y sigue cuentas relevantes para ver sus publicaciones en el timeline.
+- **Mensajería Privada**: Comunicación directa entre usuarios para fortalecer las conexiones.
+- **Notificaciones**: Recibe actualizaciones sobre la actividad de tus publicaciones, nuevos seguidores y mensajes.
+
+## Tecnologías Utilizadas
+- **Frontend**: React con Astro Islands para un diseño responsivo y moderno.
+- **Backend**: Astro y MongoDB para una gestión de datos ágil y segura.
+- **Autenticación**: JWT (JSON Web Tokens) para un inicio de sesión seguro y persistente.
+
+## Configuración del Entorno de Desarrollo
+**Clona este repositorio**:
+
+```bash
+git clone https://github.com/usuario/livio.git
+cd livio
+```
+**Instala las dependencias**:
+
+```bash
+cd server
+npm install
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+**Contribuciones**
+¡Las contribuciones son bienvenidas!
