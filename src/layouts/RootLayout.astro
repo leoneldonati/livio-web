@@ -7,9 +7,10 @@ interface Props {}
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
     <title>Livio - ¡comparte y conecta!</title>
   </head>
+
   <body>
     <main>
       <slot />
@@ -18,5 +19,14 @@ interface Props {}
 </html>
 
 <style is:global>
- 
+  *,
+  *::after,
+  *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
 </style>

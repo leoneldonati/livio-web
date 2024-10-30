@@ -13,7 +13,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!ok) return res({ message: "Algunos datos no son válidos, por favor revísalos.", issues })
 
-    return res({payload, avatar})
+    return res({ payload, avatar })
   } catch (err) {
     console.log(err);
     return res({ message: "Error en el servidor" }, 500);
