@@ -16,13 +16,13 @@ Livio is a modern social network designed to offer an accessible connection and 
 
 ## Configurate dev environment
 
-**Clona este repositorio**:
+**Clone this repository**:
 ```bash
 git clone https://github.com/usuario/livio.git
 cd livio
 ```
 
-**Instala las dependencias**:
+**Install the dependencies**:
 ```bash
 cd server
 npm install
