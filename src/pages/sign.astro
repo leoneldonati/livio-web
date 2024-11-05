@@ -1,10 +1,74 @@
 ---
+import OAuthBtn from "../components/oAuth-btn.astro";
 import RootLayout from "../layouts/RootLayout.astro";
 ---
 
 <RootLayout>
-  <section>
+  <section class="sign">
+    <div class="sign__container">
+      <h1 class="sign__title">Crear una cuenta</h1>
+      <h2 class="sign__subtitle">Ingresa tu email debajo</h2>
+      <form method="post" class="sign__form">
+        <div class="sign__form--email">
+          <label for="email"> Email </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="m@ejemplo.com"
+          />
+        </div>
 
-    
+        <div class="sign__form--password">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" />
+        </div>
+
+        <button class="sign__form__btn"> Crear cuenta con Email </button>
+      </form>
+
+      <div id="separator">
+        <span></span>
+        <span>O CONTINUAR CON</span>
+      </div>
+
+      <div>
+        <!-- BOTONES DE CADA PROVEEDOR OAUTH DISPONIBLE -->
+        <OAuthBtn provider="GITHUB" />
+        <OAuthBtn provider="INSTAGRAM" />
+      </div>
+
+      <small>
+        ¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a>
+      </small>
+    </div>
   </section>
 </RootLayout>
+<style>
+  .sign {
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+  }
+  .sign__container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+
+    .sign__title {
+      font-size: 1.8em;
+    }
+    .sign__subtitle {
+      font-size: 1.2em;
+      color: rgba(0, 0, 0, 0.4);
+    }
+    .sign__form {
+      width: 100%;
+    }
+    .sign__form--email,
+    .sign__form--password {
+    }
+    .sign__form__btn {
+    }
+  }
+</style>

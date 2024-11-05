@@ -1,0 +1,10 @@
+---
+import { getColorsByProvider } from "../scripts/colors"
+interface Props {
+  provider: "GOOGLE" | "INSTAGRAM" | "GITHUB";
+}
+
+const { provider } = Astro.props;
+
+const schemaColor = getColorsByProvider(provider)
+---

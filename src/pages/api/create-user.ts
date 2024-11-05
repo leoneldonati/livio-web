@@ -16,6 +16,6 @@ export const POST: APIRoute = async ({ request }) => {
     return res({ payload, avatar })
   } catch (err) {
     console.log(err);
-    return res({ message: "Error en el servidor" }, 500);
+    return res({ message: "Error en el servidor." }, 500);
   }
 };
