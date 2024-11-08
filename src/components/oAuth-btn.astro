@@ -1,10 +1,39 @@
 ---
-import { getColorsByProvider } from "../scripts/colors"
+import ProviderIcon from "./provider-icon.astro";
+export enum PROVIDERS {
+  GITHUB = "GITHUB",
+  INSTAGRAM = "INSTAGRAM",
+  GOOGLE = "GOOGLE",
+}
 interface Props {
-  provider: "GOOGLE" | "INSTAGRAM" | "GITHUB";
+  provider: "INSTAGRAM" | "GOOGLE" | "GITHUB";
 }
 
 const { provider } = Astro.props;
 
-const schemaColor = getColorsByProvider(provider)
 ---
+
+<button class="oAuthBtn" title=`Continuar con ${provider}.`>
+  <ProviderIcon provider={provider} /> 
+</button>
+
+<style>
+  .oAuthBtn {
+    display: flex;
+    border: none;
+    border-radius: 100%;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, .6);
+    color: rgba(250,250,250);
+    cursor: pointer;
+    box-shadow: 0 0 10px transparent;
+
+    transition: box-shadow .2s ease-out, transform .2s cubic-bezier(0.86, 0, 0.07, 1);
+    &:hover {
+      box-shadow: 0 5px 10px rgba(33, 33, 33, .4);
+    }
+    &:active {
+      transform: scale(1.03);
+    }
+  }
+</style>

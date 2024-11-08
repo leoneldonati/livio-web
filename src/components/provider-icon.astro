@@ -1,0 +1,24 @@
+---
+import {
+  IconBrandGithubFilled,
+  IconBrandInstagramFilled,
+  IconBrandGoogleFilled,
+} from "@tabler/icons-react";
+import { PROVIDERS } from "../components/oAuth-btn.astro";
+interface Props {
+  provider: string;
+}
+const { provider } = Astro.props;
+---
+
+{provider === PROVIDERS.GITHUB && <IconBrandGithubFilled />}
+{provider === PROVIDERS.INSTAGRAM && <IconBrandInstagramFilled />}
+{provider === PROVIDERS.GOOGLE && <IconBrandGoogleFilled />}
+
+<style>
+  svg {
+    width: 40px;
+    height: auto;
+    color: inherit;
+  }
+</style>
