@@ -1,6 +1,20 @@
 ---
-import OAuthBtn from "../components/oAuth-btn.astro";
-import RootLayout from "../layouts/RootLayout.astro";
+import OAuthBtn from "~/components/oAuth-btn.astro";
+import SubmitBtn from "~/components/submit-btn.astro";
+import RootLayout from "~/layouts/RootLayout.astro";
+import ApiServices from "~/services/api";
+const { signIn } = new ApiServices(Astro.url.origin);
+
+let errors = null;
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const { ok, response } = await signIn(formData);
+
+  if (ok) return Astro.redirect("/");
+
+  errors = response;
+  console.log({errors})
+}
 ---
 
 <RootLayout>
@@ -26,7 +40,9 @@ import RootLayout from "../layouts/RootLayout.astro";
           <input type="password" name="password" id="password" required />
         </label>
 
-        <button class="sign__form__btn"> Crear cuenta con Email </button>
+        <SubmitBtn>
+          Crear cuenta con Email
+        </SubmitBtn>
       </form>
 
       <div id="separator">
@@ -41,7 +57,10 @@ import RootLayout from "../layouts/RootLayout.astro";
       </div>
 
       <small>
-        ¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a>
+        ¿Ya tienes una cuenta? <a
+          href="/login"
+          style="color: rgba(33,33,33,.8);">Inicia sesión</a
+        >
       </small>
     </div>
   </section>
@@ -88,21 +107,6 @@ import RootLayout from "../layouts/RootLayout.astro";
 
       & > input {
         padding: 6px;
-      }
-    }
-    .sign__form__btn {
-      padding: 10px 0;
-      background-color: var(--color_p);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition:
-        transform 0.2s cubic-bezier(1, 0, 0, 1),
-        box-shadow 0.1s cubic-bezier(0.95, 0.05, 0.795, 0.035);
-
-      &:hover {
-        transform: scale(0.99);
-        box-shadow: 0 6px 8px var(--color_shadow);
       }
     }
 
