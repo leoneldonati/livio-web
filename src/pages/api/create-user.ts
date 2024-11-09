@@ -5,17 +5,21 @@ import { res } from "../../scripts/helpers";
 export const POST: APIRoute = async ({ request }) => {
   try {
     const formData = await request.formData();
-    const avatar = await request.blob();
 
-    const payload  = Object.fromEntries(formData);
+    const payload = Object.fromEntries(formData);
 
-    const { ok, payload: parsedPayload, issues } = validate(payload)
+    const { ok, payload: parsedPayload, issues } = validate(payload);
 
-    if (!ok) return res({ message: "Algunos datos no son válidos, por favor revísalos.", issues })
+    if (!ok)
+      return res({
+        status: 400,
+        message: "Algunos datos no son válidos, por favor revísalos.",
+        otherIssues: issues,
+      });
 
-    return res({ payload, avatar })
+    return res({ payload });
   } catch (err) {
-    console.log(err);
-    return res({ message: "Error en el servidor." }, 500);
+    console.error(err)
+    return res({ message: "Error en el servidor.", status: 500 }, 500);
   }
 };
