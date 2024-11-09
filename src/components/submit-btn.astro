@@ -1,0 +1,39 @@
+---
+interface Props {
+  styles?: string;
+}
+const { styles } = Astro.props;
+---
+
+<button type="submit" class="submit-btn" style={styles}>
+  <slot />
+</button>
+
+<script>
+  const $submitBtn = document.querySelector(".submit-btn") as HTMLButtonElement;
+
+  if ($submitBtn) {
+    $submitBtn.addEventListener("click", () => {
+      $submitBtn.style.pointerEvents = "none";
+      $submitBtn.style.transform = "scale(.98)";
+      $submitBtn.innerText = "Creando cuenta..."
+    });
+  }
+</script>
+<style>
+  .submit-btn {
+    padding: 10px 0;
+    background-color: var(--color_p);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition:
+      transform 0.2s cubic-bezier(1, 0, 0, 1),
+      box-shadow 0.1s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+
+    &:hover {
+      transform: scale(0.99);
+      box-shadow: 0 6px 8px var(--color_shadow);
+    }
+  }
+</style>
