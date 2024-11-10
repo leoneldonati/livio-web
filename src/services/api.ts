@@ -9,7 +9,6 @@ export default class ApiServices {
     try {
       const response = await fetch(`${this.origin}/api/create-user`, {
         method: "POST",
-        credentials: "same-origin",
         body: payload
       });
 
@@ -30,7 +29,6 @@ export default class ApiServices {
     try {
       const response = await fetch(`${this.origin}/api/login-user`, {
         method: "POST",
-        credentials: "same-origin",
         body: payload
       });
 
@@ -46,4 +44,23 @@ export default class ApiServices {
       }
     }
   };
+
+  getUserById = async (id: string) => {
+    try {
+      const response = await fetch(`${this.origin}/api/get-user-by?id=${id}`, {
+        method: "GET",
+      });
+
+      return {
+        ok: response.ok,
+        response: await response.json()
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        ok: false,
+        response: null
+      }
+    }
+  }
 }
