@@ -1,5 +1,11 @@
 ---
-interface Props {}
+interface Props {
+  title?: string;
+}
+
+const {title} = Astro.props;
+
+const defaultTitle = 'Livio - ¡comparte y conecta!'
 ---
 
 <!doctype html>
@@ -8,7 +14,7 @@ interface Props {}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="/favicon.png" type="image/png" />
-    <title>Livio - ¡comparte y conecta!</title>
+    <title>{title ? title : defaultTitle}</title>
   </head>
 
   <body>
