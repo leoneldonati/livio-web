@@ -17,7 +17,7 @@ if (Astro.request.method === "POST") {
 }
 ---
 
-<RootLayout>
+<RootLayout title="Crea una cuenta en Livio - ¡Descubre lo que el mundo piensa!">
   <section class="sign">
     <div class="sign__container">
       <h1 class="sign__title">Crear una cuenta</h1>
@@ -28,7 +28,7 @@ if (Astro.request.method === "POST") {
             type="email"
             name="email"
             id="email"
-            placeholder="m@ejemplo.com"
+            placeholder="ejemplo@dominio.com"
             autofocus
             autocomplete="email"
             required
@@ -38,6 +38,11 @@ if (Astro.request.method === "POST") {
         <label class="sign__form__label--password" for="password">
           Contraseña
           <input type="password" name="password" id="password" required />
+        </label>
+
+        <label for="username" class="sign__form__label--username">
+          Nombre de usuario
+          <input type="text" name="username" id="username" placeholder="ejemplo99" maxlength="13" required>
         </label>
 
         <SubmitBtn>
@@ -99,7 +104,8 @@ if (Astro.request.method === "POST") {
       box-shadow: 0 5px 10px rgba(22, 22, 22, 0.5);
     }
     .sign__form__label--email,
-    .sign__form__label--password {
+    .sign__form__label--password,
+    .sign__form__label--username {
       width: 100%;
       display: flex;
       flex-direction: column;
