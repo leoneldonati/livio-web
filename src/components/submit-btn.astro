@@ -1,4 +1,6 @@
 ---
+import { IconRotate } from "@tabler/icons-react";
+
 interface Props {
   styles?: string;
 }
@@ -7,21 +9,32 @@ const { styles } = Astro.props;
 
 <button type="submit" class="submit-btn" style={styles}>
   <slot />
+  <IconRotate className="submit-btn__icon" />
 </button>
 
 <script>
   const $submitBtn = document.querySelector(".submit-btn") as HTMLButtonElement;
 
   if ($submitBtn) {
-    $submitBtn.addEventListener("click", () => {
+    const form = $submitBtn.form;
+    const icon = $submitBtn.childNodes[1] as HTMLElement;
+
+    form?.addEventListener("submit", () => {
       $submitBtn.style.pointerEvents = "none";
       $submitBtn.style.transform = "scale(.98)";
-      $submitBtn.innerText = "Creando cuenta..."
+      $submitBtn.innerText = "";
+      icon.style.display = "flex";
     });
+
   }
 </script>
 <style>
   .submit-btn {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     padding: 10px 0;
     background-color: var(--color_p);
     border: none;
@@ -34,6 +47,21 @@ const { styles } = Astro.props;
     &:hover {
       transform: scale(0.99);
       box-shadow: 0 6px 8px var(--color_shadow);
+    }
+
+    .submit-btn__icon {
+      display: none;
+      width: 20px;
+      height: auto;
+      animation: rotate 1s 1s infinite;
+    }
+  }
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-360deg);
     }
   }
 </style>
