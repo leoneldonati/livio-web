@@ -10,7 +10,10 @@ if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
   const { ok, response } = await logIn(formData);
 
-  if (ok) return Astro.redirect("/");
+  if (ok) {
+    Astro.cookies.set('session', response.insertedId, {})
+    return Astro.redirect("/")
+  }
 
   errors = response;
   console.log({errors})

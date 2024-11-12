@@ -1,11 +1,42 @@
 ---
-import RootLayout from "../layouts/RootLayout.astro";
+import RootLayout from "~/layouts/RootLayout.astro";
+import { getSessionValue } from "~/scripts/session";
+const id = getSessionValue(Astro)
+if (!id) return Astro.redirect("/login");
 
+import ApiServices from "~/services/api"
 
+const { createPost } = new ApiServices(Astro.url.origin)
+
+if (Astro.request.method === "POST") {
+	const formData = await Astro.request.formData()
+
+	const { response } = await createPost(formData)
+
+	console.log(response)
+}
 ---
 
 <RootLayout>
-	<section>
-		<h1>HOME</h1>
+	<section class="home">
+		
+		<header>
+			
+
+			<form method="post">
+
+
+				<label for="assets">
+					<input type="file">
+				</label>
+				<label for="content">
+					<input type="text">
+				</label>
+
+				<button>
+					Publicar
+				</button>
+			</form>
+		</header>
 	</section>
 </RootLayout>

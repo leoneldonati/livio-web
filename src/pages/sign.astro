@@ -10,14 +10,19 @@ if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
   const { ok, response } = await signIn(formData);
 
-  if (ok) return Astro.redirect("/");
+  if (ok) {
+    Astro.cookies.set("session", response.insertedId, {});
+    return Astro.redirect("/admin/profile/edit");
+  }
 
   errors = response;
-  console.log({errors})
+  console.log({ errors });
 }
 ---
 
-<RootLayout title="Crea una cuenta en Livio - ¡Descubre lo que el mundo piensa!">
+<RootLayout
+  title="Crea una cuenta en Livio - ¡Descubre lo que el mundo piensa!"
+>
   <section class="sign">
     <div class="sign__container">
       <h1 class="sign__title">Crear una cuenta</h1>
@@ -40,14 +45,30 @@ if (Astro.request.method === "POST") {
           <input type="password" name="password" id="password" required />
         </label>
 
-        <label for="username" class="sign__form__label--username">
-          Nombre de usuario
-          <input type="text" name="username" id="username" placeholder="ejemplo99" maxlength="13" required>
+        <label for="username" class="sign__form__label--name">
+          Nombre
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Jhon"
+            required
+          />
         </label>
 
-        <SubmitBtn>
-          Crear cuenta con Email
-        </SubmitBtn>
+        <label for="username" class="sign__form__label--username">
+          Nombre de usuario
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="ejemplo99"
+            maxlength="13"
+            required
+          />
+        </label>
+
+        <SubmitBtn> Crear cuenta con Email </SubmitBtn>
       </form>
 
       <div id="separator">
@@ -103,9 +124,7 @@ if (Astro.request.method === "POST") {
       padding: 10px;
       box-shadow: 0 5px 10px rgba(22, 22, 22, 0.5);
     }
-    .sign__form__label--email,
-    .sign__form__label--password,
-    .sign__form__label--username {
+    .sign__form > label {
       width: 100%;
       display: flex;
       flex-direction: column;

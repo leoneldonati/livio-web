@@ -1,26 +1,28 @@
 import { z } from "astro/zod";
 
 const userSch = z.object({
-  email: z.string().email({ message: 'El email debe tener un formato de email válido.' }),
+  email: z
+    .string()
+    .email({ message: "El email debe tener un formato de email válido." }),
   password: z.string(),
-  username: z.string().max(10, 'Nombre de usuario demasiado largo.')
-})
-
-export const validate = (payload: any) => {
+  name: z.string(),
+  username: z.string().max(10, "Nombre de usuario demasiado largo."),
+});
+const loginSch = userSch.partial({ username: true });
+export const validate = (payload: any, config?: { partial: boolean }) => {
   try {
-    userSch.parse(payload)
+    config?.partial ? loginSch.parse(payload) : userSch.parse(payload);
 
     return {
       ok: true,
       payload,
-      issues: null
-    }
-  }
-  catch (err: any) {
+      issues: null,
+    };
+  } catch (err: any) {
     return {
       ok: false,
       payload: null,
-      issues: err?.issues
-    }
+      issues: err?.issues,
+    };
   }
-}
+};
