@@ -33,5 +33,14 @@ export interface User {
   followed: Follower[];
 }
 
+interface Author extends Omit<User, 'headerPhoto' | 'bornDate' | 'location' | 'othersLinks' | 'website' | 'created' | 'modified' | 'password' | 'email'> {}
 
-export interface Post {}
+export interface Post {
+  _id: string;
+  content: string;
+  assets: Asset[] | null;
+  author: Author;
+  created: string;
+  modified: string;
+  
+}
