@@ -85,7 +85,7 @@ export default class ApiServices {
     try {
       const response = await fetch(`${this.origin}/api/create-post`, {
         method: "POST",
-        body: payload
+        body: payload,
       });
 
       return {
