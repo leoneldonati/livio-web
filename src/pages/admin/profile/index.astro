@@ -1,7 +1,7 @@
 ---
 import { IconCalendarPlus, IconMapPin } from "@tabler/icons-react";
 import BackBtn from "~/components/back-btn.astro";
-import PostCard from "~/components/post.astro";
+import PostCard from "~/components/client/post-card";
 import RootLayout from "~/layouts/RootLayout.astro";
 import { getSessionValue } from "~/scripts/session";
 import ApiServices from "~/services/api";
@@ -77,11 +77,11 @@ const { response: posts } = (await getPostsByUserid(id)) as {
       <div class="admin-profile__container--other-info">
         <span>
           <IconMapPin />
-          {user?.location?.country}
+          {user?.location?.country ? user.location.country : "Sin ubicación"}
         </span>
 
         <span>
-          <IconCalendarPlus /> Te uniste: {user?.created}
+          <IconCalendarPlus /> Te uniste: {}
         </span>
       </div>
 
@@ -248,6 +248,5 @@ const { response: posts } = (await getPostsByUserid(id)) as {
     display: flex;
     flex-flow: column;
     flex: 1;
-    
   }
 </style>
