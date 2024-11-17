@@ -42,5 +42,6 @@ export interface Post {
   author: Author;
   created: string;
   modified: string;
-  
+  likes: [];
+  responses: [];
 }
