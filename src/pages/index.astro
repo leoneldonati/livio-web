@@ -1,21 +1,42 @@
 ---
-import SubmitBtn from "~/components/submit-btn.astro";
 import RootLayout from "~/layouts/RootLayout.astro";
 import { getSessionValue } from "~/scripts/session";
-const id = getSessionValue(Astro)
+const id = getSessionValue(Astro);
 if (!id) return Astro.redirect("/login");
 
-import CreatePostForm from "~/components/client/create-post-form"
+import CreatePostForm from "~/components/client/create-post-form";
+import Feed from "~/components/client/feed";
+import { formatDate } from "~/scripts/date";
 
+console.log(formatDate("2024-11-15T13:10:42.802Z"));
 ---
 
 <RootLayout>
-	<section class="home" >
-		
-		<header>
-			
+  <section class="home">
+    <header>
+      <CreatePostForm
+        origin={Astro.url.origin}
+        client:load
+        transition:persist
+      />
+    </header>
 
-			<CreatePostForm origin={Astro.url.origin} client:load transition:persist />
-		</header>
-	</section>
+    <div class="home__container--posts">
+      <Feed origin={Astro.url.origin} client:load transition:persist />
+    </div>
+  </section>
 </RootLayout>
+
+<style>
+  .home {
+    min-height: 100dvh;
+    display: flex;
+    flex-flow: column;
+  }
+  .home__container--posts {
+    display: flex;
+    flex-flow: column;
+    border: 1px solid rgba(33,33,33,.6);
+    flex: 1;
+  }
+</style>
