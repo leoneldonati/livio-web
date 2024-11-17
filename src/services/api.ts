@@ -80,7 +80,25 @@ export default class ApiServices {
       }
     }
   }
-  
+  getPosts = async (q: number = 20) => {
+    try {
+      const response = await fetch(`${this.origin}/api/get-posts?q=${q}`, {
+        method: "GET",
+      });
+
+      return {
+        ok: response.ok,
+        response: await response.json()
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        ok: false,
+        response: null
+      }
+    }
+  }
+
   createPost = async (payload: FormData) => {
     try {
       const response = await fetch(`${this.origin}/api/create-post`, {
