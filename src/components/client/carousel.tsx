@@ -10,19 +10,19 @@ export default function Carousel({
   const [position, setPosition] = useState(0);
   return (
     <div
-      className={`relative overflow-hidden max-w-[82%] mx-auto ${paths.length > 1 && "aspect-video"}`}
+      className={`relative overflow-hidden max-w-full mx-auto ${paths.length > 1 && "aspect-video"}`}
     >
       <div
         className="flex flex-row gap-2 transition-transform"
         style={{
-          transform: `translateX(-${(position / 2) * 100}%)`,
+          transform: `translateX(-${(position * 100 / paths.length)}%)`,
         }}
       >
         {paths.map((path, index) => (
           <div className="relative" key={index}>
             <img
               src={path}
-              alt=""
+              alt={`Foto seleccionada ${index}`}
               loading="lazy"
               className="max-w-[200px] h-[230px] object-cover aspect-square rounded-xl"
             />
