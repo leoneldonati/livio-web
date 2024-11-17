@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { ObjectId, postModel } from "~/db";
 import { res } from "~/scripts/helpers";
 
 export const GET: APIRoute = async ({ url }) => {
@@ -11,7 +12,10 @@ export const GET: APIRoute = async ({ url }) => {
     );
 
   try {
-    return res({})
+
+    const posts = await postModel.find({ $where: () => this?.author._id == userId }).toArray();
+
+    return res(posts)
   }
   catch (err) { 
 

@@ -3,7 +3,7 @@ import { validate } from "~/scripts/zod";
 import { res } from "~/scripts/helpers";
 import { encryptString } from "~/scripts/bcrypt";
 import { userModel } from "~/db";
-import { format } from "@formkit/tempo"
+import { format } from "@formkit/tempo";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -20,13 +20,25 @@ export const POST: APIRoute = async ({ request }) => {
         otherIssues: issues,
       });
 
+    const isRegistred = await userModel.findOne({ email: payload.email });
+
+    if (isRegistred)
+      return res(
+        {
+          message: "El usuario ya se encuentra registrado.",
+          status: 400,
+          otherIssues: null,
+        },
+        400
+      );
+
     const hash = await encryptString(payload.password.toString());
 
     const modelToSave = {
       ...payload,
       password: hash,
-      created: format(new Date(), 'medium'),
-      modified: format(new Date(), 'medium'),
+      created: new Date(),
+      modified: new Date(),
       headerPhoto: null,
       avatar: null,
       bio: null,
