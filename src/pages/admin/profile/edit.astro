@@ -1,0 +1,234 @@
+---
+import { getSessionValue } from "~/scripts/session";
+const id = getSessionValue(Astro);
+if (!id) return Astro.redirect("/login");
+import { IconCalendarPlus, IconMapPin } from "@tabler/icons-react";
+import { format } from "@formkit/tempo";
+import BackBtn from "~/components/back-btn.astro";
+import RootLayout from "~/layouts/RootLayout.astro";
+import HeaderPhotoInput from "~/components/client/edit-profile/header-photo-input";
+import AvatarInput from "~/components/client/edit-profile/avatar-input";
+import ApiServices from "~/services/api";
+
+const { getUserById } = new ApiServices(Astro.url.origin);
+
+const { response: user } = await getUserById(id);
+
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  console.log(formData);
+}
+---
+
+<RootLayout>
+  <section class="admin-profile">
+    <!-- ENCABEZADO SUPERIOR -->
+    <header class="flex flex-row items-center">
+      <BackBtn />
+
+      <div>
+        <strong class="admin-profile__name">
+          {user?.name}
+        </strong>
+      </div>
+    </header>
+
+    <form method="post" enctype="multipart/form-data">
+      <!-- FOTO DE PORTADA -->
+      <HeaderPhotoInput headerPhoto={user.headerPhoto} client:visible />
+
+      <div class="admin-profile__container--bottom">
+        <!-- AVATAR -->
+        <AvatarInput avatar={user.avatar} client:visible />
+
+        <!-- NOMBRE Y NOMBRE DE USUARIO -->
+        <div class="admin-profile__container--names">
+          <label for="name">
+            Nombre: <input
+              type="text"
+              placeholder={user?.name}
+              name="name"
+              id="name"
+            />
+          </label>
+          <label for="username">
+            Nombre de usuario: <input
+              type="text"
+              placeholder={user?.username}
+              name="username"
+              id="username"
+            />
+          </label>
+        </div>
+
+        <!-- BIO -->
+        <label class="admin-profile__bio" for="bio">
+          Bio: <textarea
+            name="bio"
+            id="bio"
+            placeholder={user?.bio
+              ? user.bio
+              : "Aquí puedes escribir tu biografía"}></textarea>
+        </label>
+
+        <!-- OTRA INFORMACIÓN -->
+        <div class="admin-profile__container--other-info">
+          <button
+            class="flex flex-1 justify-center py-3 px-5 rounded-xl bg-[rgba(134,290,110,0.8)] transition hover:bg-[rgba(134,290,110,0.9)] hover:scale-[1.04]"
+            >Guardar perfil</button
+          >
+
+          <span>
+            <IconMapPin />
+            {user?.location?.country ? user.location.country : "Sin ubicación"}
+          </span>
+
+          <span>
+            <IconCalendarPlus /> Te uniste: {format(user?.created, "medium")}
+          </span>
+        </div>
+      </div>
+    </form>
+  </section>
+</RootLayout>
+
+<style>
+  .admin-profile {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column;
+    padding-top: 46px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    /* ENCABEZADO SUPERIOR */
+    & > header {
+      position: absolute;
+      top: 0;
+      z-index: 3;
+      width: 100%;
+      display: flex;
+      flex-flow: row;
+      padding: 6px 13px;
+      background-color: rgb(250, 250, 250);
+      & > div {
+        display: flex;
+        flex-flow: column;
+        margin-left: 6px;
+      }
+    }
+
+    /* FOTO DE PORTADA */
+    .admin-profile__header-photo {
+      display: grid;
+      place-items: center;
+      position: relative;
+      width: 100%;
+      height: 220px;
+      aspect-ratio: 16/9;
+      border: 1px solid rgb(33, 33, 33);
+      cursor: pointer;
+      overflow: hidden;
+      transition: box-shadow 0.2s ease-out;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+      &:hover {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      &:hover > svg {
+        transform: scale(1.3);
+      }
+    }
+  }
+
+  .admin-profile__container--bottom {
+    position: relative;
+    padding: 0 13px;
+
+    /* AVATAR */
+    .admin-profile__avatar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: -86px;
+      right: 13px;
+      z-index: 1;
+      max-width: 140px;
+      width: 100%;
+      aspect-ratio: 4/4;
+      border: 5px solid #fff;
+      border-radius: 100%;
+      background-color: rgb(250, 250, 250);
+      cursor: pointer;
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 4 / 4;
+        object-fit: cover;
+      }
+
+      &:hover {
+        box-shadow: inset 0 0 16px rgba(33, 33, 33, 0.6);
+      }
+
+      &:hover > svg {
+        transform: scale(1.2);
+      }
+    }
+
+    /* USERNAME & NAME CONTAINER */
+    .admin-profile__container--names {
+      display: flex;
+      flex-flow: column;
+      margin: 10px 0;
+      & > label {
+        display: flex;
+        flex-flow: column;
+        width: fit-content;
+      }
+      & > label > input {
+        padding: 6px 12px;
+      }
+    }
+
+    /* BIOGRAFÍA */
+    .admin-profile__bio {
+      display: flex;
+      flex-flow: column;
+
+      & > textarea {
+        padding: 6px 12px;
+        resize: none;
+        height: 200px;
+      }
+    }
+
+    /* OTRA INFORMACIÓN */
+    .admin-profile__container--other-info {
+      margin: 10px 0;
+      display: flex;
+      flex-flow: row;
+      justify-content: end;
+      gap: 10px;
+      & > span {
+        color: rgba(33, 33, 33, 0.6);
+        width: fit-content;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        font-size: 14px;
+      }
+    }
+  }
+</style>
