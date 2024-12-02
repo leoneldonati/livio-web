@@ -1,17 +1,11 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import ApiServices from "~/services/api";
 import { usePostStore } from "~/store";
 import Carousel from "./carousel";
 
-export default function CreatePostForm({
-  origin,
-  children,
-}: {
-  origin: string;
-  children?: ReactNode;
-}) {
-  const [opened, setOpened] = useState(false);
+export default function CreatePostForm({ origin }: { origin: string }) {
   const [assets, setAssets] = useState<string[] | null>(null);
+  const [content, setContent] = useState("");
   const { addOnePost } = usePostStore();
   const { createPost } = new ApiServices(origin);
 
@@ -20,7 +14,14 @@ export default function CreatePostForm({
     e.preventDefault();
 
     const form = new FormData(e.target as HTMLFormElement);
-    createPost(form).then(({ ok, response }) => ok && addOnePost(response));
+    createPost(form).then(({ ok, response }) => {
+      if (ok) {
+        addOnePost(response);
+
+        setAssets(null);
+        setContent("");
+      }
+    });
   };
 
   // MANEJAR CAMBIO DE ESTADO DEL INPUT FILES
@@ -33,6 +34,11 @@ export default function CreatePostForm({
 
       setAssets(srcMap);
     }
+  };
+
+  // MANEJAR CAMBIO DE ESTADO INPUT TEXT (contenido)
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value);
   };
 
   // BORRAR UN ASSET
@@ -48,7 +54,7 @@ export default function CreatePostForm({
   return (
     <form
       encType="multipart/form-data"
-      className={`border border-black/80 flex flex-col p-2 h-[${opened ? "auto" : "0"}] overflow-hidden`}
+      className={`border-t border-b border-black/60 flex flex-col p-2 overflow-hidden`}
       onSubmit={handleSubmit}
     >
       <label htmlFor="content">
@@ -58,6 +64,8 @@ export default function CreatePostForm({
           id="content"
           placeholder="¿¡Qué deseas compartir?!"
           className="focus:outline-none focus:border-none py-2 px-4 my-4 w-full"
+          onChange={handleTextChange}
+          value={content}
         />
       </label>
 
@@ -99,7 +107,12 @@ export default function CreatePostForm({
         </svg>
       </label>
 
-      {children}
+      <button
+        type="submit"
+        className="px-6 py-3 rounded-xl bg-[rgba(134,290,110,0.8)] w-fit mx-auto"
+      >
+        Publicar
+      </button>
     </form>
   );
 }
