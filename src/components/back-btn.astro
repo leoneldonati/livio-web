@@ -1,12 +1,12 @@
 ---
-import { IconArrowBackUp } from "@tabler/icons-react"
+import { IconArrowBackUp } from "@tabler/icons-react";
 
-const referer = Astro.request.headers.get('referer')
+const referer = Astro.request.headers.get("referer");
 
-const path = new URL(referer ?? '').pathname
+// const path = new URL(referer ?? '').pathname
 ---
 
-<a href={path} title="Ir hacia atrás">
+<a href={"path"} title="Ir hacia atrás">
   <IconArrowBackUp />
 </a>
 
@@ -16,14 +16,12 @@ const path = new URL(referer ?? '').pathname
     display: flex;
     padding: 3px;
     border-radius: 100%;
-    border: 1px solid rgb(33,33,33);
-    color: rgb(33,33,33);
-    transition: box-shadow .2s cubic-bezier(0.075, 0.82, 0.165, 1);
+    border: 1px solid rgb(33, 33, 33);
+    color: rgb(33, 33, 33);
+    transition: box-shadow 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 
-    
     &:hover {
-      box-shadow: 0 2px 3px rgb(44,44,44);
+      box-shadow: 0 2px 3px rgb(44, 44, 44);
     }
-
   }
 </style>

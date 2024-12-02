@@ -6,7 +6,7 @@ export default function HeaderPhotoInput({
 }: {
   headerPhoto: Asset | null;
 }) {
-  const [asset, setAsset] = useState('')
+  const [asset, setAsset] = useState("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -31,7 +31,9 @@ export default function HeaderPhotoInput({
         name="header-photo"
         onChange={handleChange}
       />
-      {(headerPhoto || asset) && <img src={headerPhoto?.secureUrl ?? asset} alt="Foto de portada" />}
+      {(headerPhoto || asset) && (
+        <img src={headerPhoto?.secureUrl ?? asset} alt="Foto de portada" />
+      )}
 
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +45,7 @@ export default function HeaderPhotoInput({
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className={`transition-transform ${(headerPhoto || asset) && 'hidden'}`}
+        className={`transition-transform ${(headerPhoto || asset) && "hidden"}`}
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M15 8h.01" />

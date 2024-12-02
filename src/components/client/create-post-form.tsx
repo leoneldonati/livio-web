@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import ApiServices from "~/services/api";
 import { usePostStore } from "~/store";
 import Carousel from "./carousel";
 
-export default function CreatePostForm({ origin }: { origin: string }) {
+export default function CreatePostForm({
+  origin,
+  children,
+}: {
+  origin: string;
+  children?: ReactNode;
+}) {
   const [assets, setAssets] = useState<string[] | null>(null);
   const { addOnePost } = usePostStore();
   const { createPost } = new ApiServices(origin);
@@ -92,13 +98,7 @@ export default function CreatePostForm({ origin }: { origin: string }) {
         </svg>
       </label>
 
-      <button
-        type="submit"
-        className="block bg-[rgba(134,290,110,0.8)] my-2 py-2 px-4 w-fit mx-auto rounded-xl"
-        title="Crear publicación"
-      >
-        Publicar
-      </button>
+      {children}
     </form>
   );
 }

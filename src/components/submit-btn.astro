@@ -1,66 +1,98 @@
 ---
-import { IconRotate } from "@tabler/icons-react";
+import { IconClockHour12Filled } from "@tabler/icons-react";
 
 interface Props {
   styles?: string;
+  hoverTitle?: string;
+  loadingText: string;
 }
-const { styles } = Astro.props;
+const { styles, hoverTitle, loadingText } = Astro.props;
 ---
 
-<button type="submit" class="submit-btn" style={styles}>
-  <slot />
-  <IconRotate className="submit-btn__icon" />
+<button
+  type="submit"
+  class="submit-btn"
+  style={styles}
+  title={hoverTitle}
+  data-loading-text={loadingText}
+  transition:name="back-btn"
+>
+  <span id="slot">
+    <slot />
+  </span>
+
+  <IconClockHour12Filled id="icon" />
 </button>
 
 <script>
   const $submitBtn = document.querySelector(".submit-btn") as HTMLButtonElement;
-
+  const $icon = document.querySelector("#icon") as HTMLElement;
+  const $slot = document.querySelector("#slot") as HTMLSpanElement;
+  const loadingText = $submitBtn.getAttribute("data-loading-text")?.toString();
   if ($submitBtn) {
+    $icon.style.opacity = "0";
     const form = $submitBtn.form;
-    const icon = $submitBtn.childNodes[1] as HTMLElement;
-
     form?.addEventListener("submit", () => {
-      $submitBtn.style.pointerEvents = "none";
-      $submitBtn.style.transform = "scale(.98)";
-      icon.style.display = "flex";
-    });
+      $icon.style.opacity = "1";
+      $icon.style.animationPlayState = "running";
 
+      $submitBtn.style.pointerEvents = "none";
+      $submitBtn.style.transform = "scale(.95)";
+      $slot.innerText = loadingText ? loadingText : "";
+      $slot.style.opacity = ".85";
+    });
   }
 </script>
 <style>
   .submit-btn {
+    width: fit-content;
+    position: relative;
     display: flex;
-    flex-flow: row;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    padding: 10px 16px;
-    background-color: var(--color_p);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+    padding: 12px 16px;
+    margin: 0 auto;
+    background: var(--color_p);
+    border: 2px solid transparent;
+    border-radius: 12px;
     transition:
-      transform 0.2s cubic-bezier(1, 0, 0, 1),
-      box-shadow 0.1s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+      box-shadow 0.1s ease-in-out,
+      border 0.2s ease-out;
 
     &:hover {
-      transform: scale(0.99);
-      box-shadow: 0 6px 8px var(--color_shadow);
+      box-shadow: -2px 3px 3px var(--color_shadow);
+      border-color: #fff;
     }
 
-    .submit-btn__icon {
-      display: none;
+    & > svg {
+      position: absolute;
       width: 20px;
       height: auto;
-      animation: rotate 1s 1s infinite;
+      top: -20%;
+      right: 0;
+      filter: drop-shadow(0 0 3px var(--color_shadow));
+      animation: rotate 2s ease-in 0.1s infinite paused;
+      background-color: var(--color_p);
+      border-radius: 100%;
+      transition: opacity 0.2s ease-in;
     }
+  }
+  #slot {
+    width: 100%;
   }
   @keyframes rotate {
     0% {
       transform: rotate(0deg);
     }
+    25% {
+      transform: rotate(90deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    75% {
+      transform: rotate(240deg);
+    }
     100% {
-      transform: rotate(-360deg);
+      transform: rotate(360deg);
     }
   }
 </style>

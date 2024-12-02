@@ -1,0 +1,82 @@
+---
+import {
+  IconBellRinging2,
+  IconHome2,
+  IconUser,
+  IconUserSearch,
+} from "@tabler/icons-react";
+import Anchor from "./anchor.astro";
+import Avatar from "./client/avatar";
+import ApiServices from "~/services/api";
+import { getSessionValue } from "~/scripts/session";
+
+const id = getSessionValue(Astro);
+const { getUserById } = new ApiServices(Astro.url.origin);
+
+const { response: user } = await getUserById(id ?? "");
+---
+
+<aside class="aside" style=`display: ${id ? "flex" : "none"};`>
+  <Anchor href="/admin/profile" hoverTitle="Ir a tu perfil" prefetch>
+    <Avatar avatar={user?.avatar} name={user?.name} size={90} withLetter />
+  </Anchor>
+
+  <ul class="aside__ul">
+    <li>
+      <Anchor
+        href="/search"
+        hoverTitle="¡Busca a una persona!"
+        styles="px-5 py-3 rounded-lg transition-colors hover:bg-[rgba(134,290,110,.8)] flex items-center gap-1"
+      >
+        <IconUserSearch /> Buscar
+      </Anchor>
+    </li>
+    <li>
+      <Anchor
+        href="/admin/notifications"
+        hoverTitle="Mira tus notificaciones"
+        styles="px-5 py-3 rounded-lg transition-colors hover:bg-[rgba(134,290,110,.8)] flex items-center gap-1"
+      >
+        <IconBellRinging2 /> Notificaciones
+      </Anchor>
+    </li>
+    <li>
+      <Anchor
+        prefetch
+        href="/admin/profile"
+        hoverTitle="Ir a tu perfil"
+        styles="px-5 py-3 rounded-lg transition-colors hover:bg-[rgba(134,290,110,.8)] flex items-center gap-1"
+      >
+        <IconUser /> Perfil
+      </Anchor>
+    </li>
+    <li>
+      <Anchor
+        prefetch
+        href="/"
+        hoverTitle="¡Ir al muro!"
+        styles="px-5 py-3 rounded-lg transition-colors hover:bg-[rgba(134,290,110,.8)] flex items-center gap-1"
+      >
+        <IconHome2 /> Inicio
+      </Anchor>
+    </li>
+  </ul>
+</aside>
+
+<script>
+  const anchors = document.querySelectorAll(
+    ".aside__ul a"
+  ) as NodeListOf<HTMLAnchorElement>;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const currentPath = window.location.pathname;
+
+    anchors.forEach((a) => {
+      const anchorPath = new URL(a.href).pathname;
+
+      if (currentPath === anchorPath) {
+        a.style.backgroundColor = "rgba(134,290,110,.8)";
+      }
+    });
+  });
+</script>
