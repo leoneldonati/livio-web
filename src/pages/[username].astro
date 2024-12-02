@@ -11,9 +11,14 @@ import type { Post, User } from "~/types";
 const id = getSessionValue(Astro);
 if (id == null) return Astro.redirect("/login");
 
-const { getUserById, getPostsByUserid } = new ApiServices(Astro.url.origin);
+const { username } = Astro.params;
+const { getUserByUsername, getPostsByUserid } = new ApiServices(
+  Astro.url.origin
+);
 
-const { response: user } = (await getUserById(id)) as { response: User };
+const { response: user } = (await getUserByUsername(username!)) as {
+  response: User;
+};
 const { response: posts } = (await getPostsByUserid(id)) as {
   response: Post[];
 };

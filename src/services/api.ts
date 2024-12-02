@@ -61,6 +61,27 @@ export default class ApiServices {
       };
     }
   };
+  getUserByUsername = async (username: string) => {
+    try {
+      const response = await fetch(
+        `${this.origin}/api/get-user-by?username=${username}`,
+        {
+          method: "GET",
+        }
+      );
+
+      return {
+        ok: response.ok,
+        response: await response.json(),
+      };
+    } catch (e) {
+      console.error(e);
+      return {
+        ok: false,
+        response: null,
+      };
+    }
+  };
   getPostsByUserid = async (id: string) => {
     try {
       const response = await fetch(

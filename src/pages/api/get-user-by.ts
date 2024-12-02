@@ -4,8 +4,9 @@ import { res } from "~/scripts/helpers";
 
 export const GET: APIRoute = async ({ url }) => {
   const id = url.searchParams.get("id");
+  const username = url.searchParams.get("username");
 
-  if (!id)
+  if (!id && !username)
     return res(
       {
         message: "La petición debe contener un query param (id) obligatorio.",
@@ -16,20 +17,40 @@ export const GET: APIRoute = async ({ url }) => {
     );
 
   try {
-    const user = await userModel.findOne({ _id: new ObjectId(id) });
+    if (id) {
+      const user = await userModel.findOne({ _id: new ObjectId(id) });
 
-    if (!user)
-      return res(
-        {
-          message:
-            "No se ha encontrado el usuario, verifica que no haya sido borrado.",
-          status: 404,
-          otherIssues: null,
-        },
-        404
-      );
+      if (!user)
+        return res(
+          {
+            message:
+              "No se ha encontrado el usuario, verifica que no haya sido borrado.",
+            status: 404,
+            otherIssues: null,
+          },
+          404
+        );
 
-    return res(user);
+      return res(user);
+    }
+    if (username) {
+      const user = await userModel.findOne({ username });
+
+      if (!user)
+        return res(
+          {
+            message:
+              "No se ha encontrado el usuario, verifica que no haya sido borrado.",
+            status: 404,
+            otherIssues: null,
+          },
+          404
+        );
+
+      return res(user);
+    }
+
+    return res({});
   } catch (e) {
     console.error(e);
 
