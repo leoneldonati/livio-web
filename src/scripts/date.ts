@@ -16,7 +16,7 @@ const getNameOfMonth = (month: number): string => {
   return months[month] || "";
 };
 
-export function formatDate(date: string): string {
+export function formatDate(date: Date): string {
   const parsedDate = new Date(date);
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - parsedDate.getTime();
