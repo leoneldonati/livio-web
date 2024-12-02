@@ -1,17 +1,21 @@
 ---
 import { IconArrowBackUp } from "@tabler/icons-react";
-
-const referer = Astro.request.headers.get("referer");
-
-// const path = new URL(referer ?? '').pathname
 ---
 
-<a href={"path"} title="Ir hacia atrás">
+<button title="Ir hacia atrás" id="back-btn">
   <IconArrowBackUp />
-</a>
+</button>
 
+<script>
+  const $backBtn = document.querySelector("#back-btn") as HTMLButtonElement;
+  $backBtn?.addEventListener("click", () => {
+    window.history.back();
+    console.log("click");
+  });
+  document.addEventListener("astro:page-load", () => {});
+</script>
 <style>
-  a {
+  button {
     width: fit-content;
     display: flex;
     padding: 3px;
