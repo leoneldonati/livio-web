@@ -54,8 +54,8 @@ export const POST: APIRoute = async ({ request }) => {
       },
       likes: [],
       responses: [],
-      created: `${new Date()}`,
-      modified: `${new Date()}`,
+      created: new Date(),
+      modified: new Date(),
     };
 
     const { insertedId } = await postModel.insertOne(postSchema);

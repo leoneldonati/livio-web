@@ -3,7 +3,6 @@ import { validate } from "~/scripts/zod";
 import { res } from "~/scripts/helpers";
 import { encryptString } from "~/scripts/bcrypt";
 import { userModel } from "~/db";
-import { format } from "@formkit/tempo";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
