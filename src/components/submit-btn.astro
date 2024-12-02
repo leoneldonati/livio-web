@@ -24,10 +24,10 @@ const { styles, hoverTitle, loadingText } = Astro.props;
   <IconClockHour12Filled id="icon" />
 </button>
 
-<script>
-  const $submitBtn = document.querySelector(".submit-btn") as HTMLButtonElement;
-  const $icon = document.querySelector("#icon") as HTMLElement;
-  const $slot = document.querySelector("#slot") as HTMLSpanElement;
+<script is:inline data-astro-rerun>
+  const $submitBtn = document.querySelector(".submit-btn");
+  const $icon = document.querySelector("#icon");
+  const $slot = document.querySelector("#slot");
   const loadingText = $submitBtn.getAttribute("data-loading-text")?.toString();
   if ($submitBtn) {
     $icon.style.opacity = "0";
