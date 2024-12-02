@@ -2,17 +2,18 @@
 import { IconArrowBackUp } from "@tabler/icons-react";
 ---
 
-<button title="Ir hacia atrás" id="back-btn">
+<button title="Ir hacia atrás" id="back-btn" transition:name="back-btn">
   <IconArrowBackUp />
 </button>
 
 <script>
-  const $backBtn = document.querySelector("#back-btn") as HTMLButtonElement;
-  $backBtn?.addEventListener("click", () => {
-    window.history.back();
-    console.log("click");
+  document.addEventListener("astro:page-load", () => {
+    const $backBtn = document.querySelector("#back-btn") as HTMLButtonElement;
+    $backBtn?.addEventListener("click", () => {
+      window.history.back();
+      console.log("click");
+    });
   });
-  document.addEventListener("astro:page-load", () => {});
 </script>
 <style>
   button {

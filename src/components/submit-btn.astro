@@ -25,23 +25,27 @@ const { styles, hoverTitle, loadingText } = Astro.props;
 </button>
 
 <script is:inline data-astro-rerun>
-  const $submitBtn = document.querySelector(".submit-btn");
-  const $icon = document.querySelector("#icon");
-  const $slot = document.querySelector("#slot");
-  const loadingText = $submitBtn.getAttribute("data-loading-text")?.toString();
-  if ($submitBtn) {
-    $icon.style.opacity = "0";
-    const form = $submitBtn.form;
-    form?.addEventListener("submit", () => {
-      $icon.style.opacity = "1";
-      $icon.style.animationPlayState = "running";
+  document.addEventListener("astro:page-load", () => {
+    const $submitBtn = document.querySelector(".submit-btn");
+    const $icon = document.querySelector("#icon");
+    const $slot = document.querySelector("#slot");
+    const loadingText = $submitBtn
+      .getAttribute("data-loading-text")
+      ?.toString();
+    if ($submitBtn) {
+      $icon.style.opacity = "0";
+      const form = $submitBtn.form;
+      form?.addEventListener("submit", () => {
+        $icon.style.opacity = "1";
+        $icon.style.animationPlayState = "running";
 
-      $submitBtn.style.pointerEvents = "none";
-      $submitBtn.style.transform = "scale(.95)";
-      $slot.innerText = loadingText ? loadingText : "";
-      $slot.style.opacity = ".85";
-    });
-  }
+        $submitBtn.style.pointerEvents = "none";
+        $submitBtn.style.transform = "scale(.95)";
+        $slot.innerText = loadingText ? loadingText : "";
+        $slot.style.opacity = ".85";
+      });
+    }
+  });
 </script>
 <style>
   .submit-btn {
