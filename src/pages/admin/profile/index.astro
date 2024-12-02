@@ -1,7 +1,9 @@
 ---
+import { format } from "@formkit/tempo";
 import { IconCalendarPlus, IconMapPin } from "@tabler/icons-react";
-import BackBtn from "~/components/back-btn.astro";
+import Avatar from "~/components/client/avatar";
 import PostCard from "~/components/client/post-card";
+import NoPostsText from "~/components/no-posts-text.astro";
 import RootLayout from "~/layouts/RootLayout.astro";
 import { getSessionValue } from "~/scripts/session";
 import ApiServices from "~/services/api";
@@ -17,12 +19,10 @@ const { response: posts } = (await getPostsByUserid(id)) as {
 };
 ---
 
-<RootLayout title=`@${user?.username} - Perfil.`>
+<RootLayout title=`@${user?.username} - Perfil.` withAside>
   <section class="admin-profile">
     <!-- ENCABEZADO SUPERIOR -->
     <header>
-      <BackBtn />
-
       <div>
         <strong class="admin-profile__name">
           {user?.name}
@@ -47,16 +47,23 @@ const { response: posts } = (await getPostsByUserid(id)) as {
 
     <div class="admin-profile__container--bottom">
       <!-- AVATAR -->
-      <picture class="admin-profile__avatar">
-        {
-          user?.avatar && (
-            <img
-              src={user?.avatar.secureUrl}
-              alt={`Avatar de @${user?.username}`}
-            />
-          )
-        }
-      </picture>
+
+      <div
+        class="w-full absolute flex justify-end -top-14 left-0 z-10 px-[13px]"
+      >
+        <div class="flex flex-col items-center gap-3">
+          <Avatar avatar={user.avatar} name="Leonel" withLetter size={140} />
+
+          <!-- BOTÓN -->
+          <a
+            href="/admin/profile/edit"
+            title="Edita tu perfil."
+            class="admin-profile__edit-btn"
+          >
+            Editar perfil
+          </a>
+        </div>
+      </div>
 
       <!-- NOMBRE Y NOMBRE DE USUARIO -->
       <div class="admin-profile__container--names">
@@ -81,7 +88,7 @@ const { response: posts } = (await getPostsByUserid(id)) as {
         </span>
 
         <span>
-          <IconCalendarPlus /> Te uniste: {}
+          <IconCalendarPlus /> Te uniste: {format(user?.created, "medium")}
         </span>
       </div>
 
@@ -102,26 +109,25 @@ const { response: posts } = (await getPostsByUserid(id)) as {
             Seguidores
           </span>
         </div>
-
-        <!-- BOTÓN -->
-        <a
-          href="/admin/profile/edit"
-          title="Edita tu perfil."
-          class="admin-profile__edit-btn"
-        >
-          Editar perfil
-        </a>
       </div>
     </div>
 
     <div class="admin-profile__container--posts">
-      {posts?.length > 0 && posts.map((post) => <PostCard post={post} />)}
+      {
+        posts?.length > 0 &&
+          posts.map((post) => (
+            <PostCard post={post} adminId={id} client:visible />
+          ))
+      }
+
+      {posts.length === 0 && <NoPostsText />}
     </div>
   </section>
 </RootLayout>
 
 <style>
   .admin-profile {
+    min-height: 100dvh;
     position: relative;
     width: 100%;
     margin: 0 auto;
@@ -152,25 +158,18 @@ const { response: posts } = (await getPostsByUserid(id)) as {
       height: 220px;
       aspect-ratio: 16/9;
       border: 1px solid rgb(33, 33, 33);
+      overflow: hidden;
+
+      & > img {
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+      }
     }
   }
 
   .admin-profile__container--bottom {
     position: relative;
     padding: 0 13px;
-    /* AVATAR */
-    .admin-profile__avatar {
-      position: absolute;
-      top: -70%;
-      right: 13px;
-      z-index: 1;
-      max-width: 140px;
-      width: 100%;
-      aspect-ratio: 4/4;
-      border: 5px solid #fff;
-      border-radius: 100%;
-      background-color: rgb(250, 250, 250);
-    }
 
     /* USERNAME & NAME CONTAINER */
     .admin-profile__container--names {
@@ -218,35 +217,35 @@ const { response: posts } = (await getPostsByUserid(id)) as {
       & > span {
         color: rgba(33, 33, 33, 0.7);
       }
-
-      /* BOTÓN EDITAR PERFIL */
-      .admin-profile__edit-btn {
-        width: fit-content;
-        display: block;
-        text-decoration: none;
-        padding: 6px 16px;
-        color: #000;
-        background-color: var(--color_p);
-        border-radius: 10px;
-        transition:
-          box-shadow 0.2s ease-in,
-          transform 0.2s ease;
-
-        &:hover {
-          box-shadow: 0 3px 4px var(--color_shadow);
-          transform: scale(1.02);
-        }
-        &:active {
-          transform: scale(1);
-        }
-      }
     }
   }
+  /* BOTÓN EDITAR PERFIL */
+  .admin-profile__edit-btn {
+    width: fit-content;
+    display: flex;
+    text-decoration: none;
+    padding: 6px 16px;
+    color: #000;
+    background-color: var(--color_p);
+    border-radius: 10px;
+    transition:
+      box-shadow 0.2s ease-in,
+      transform 0.2s ease;
 
+    &:hover {
+      box-shadow: 0 3px 4px var(--color_shadow);
+      transform: scale(1.02);
+    }
+    &:active {
+      transform: scale(1);
+    }
+  }
   .admin-profile__container--posts {
     width: 100%;
     display: flex;
     flex-flow: column;
+    align-items: center;
+    justify-content: center;
     flex: 1;
   }
 </style>

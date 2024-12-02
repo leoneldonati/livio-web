@@ -1,11 +1,15 @@
 ---
+import { ViewTransitions } from "astro:transitions";
+import Aside from "~/components/aside.astro";
+
 interface Props {
   title?: string;
+  withAside?: boolean;
 }
 
-const {title} = Astro.props;
+const { title, withAside } = Astro.props;
 
-const defaultTitle = 'Livio - ¡comparte y conecta!'
+const defaultTitle = "Livio - ¡comparte y conecta!";
 ---
 
 <!doctype html>
@@ -15,11 +19,10 @@ const defaultTitle = 'Livio - ¡comparte y conecta!'
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="/favicon.png" type="image/png" />
     <title>{title ? title : defaultTitle}</title>
-
     <style>
       /* FUENTE PRIMARIA */
       @font-face {
-        font-family: 'Primary';
+        font-family: "Primary";
         src: url("/font/font.ttf");
         font-weight: 400;
         font-style: normal;
@@ -28,9 +31,13 @@ const defaultTitle = 'Livio - ¡comparte y conecta!'
   </head>
 
   <body>
-    <main>
-      <slot />
-    </main>
+    <div class="container">
+      <main>
+        <slot />
+      </main>
+
+      {withAside && <Aside />}
+    </div>
   </body>
 </html>
 
@@ -45,15 +52,32 @@ const defaultTitle = 'Livio - ¡comparte y conecta!'
 
   :root {
     --color_p: rgba(134, 290, 110, 0.8);
-    --color_shadow: rgba(134, 290, 110, 0.4);
+    --color_shadow: rgba(134, 290, 110, 0.5);
   }
   body {
-    font-family: "Primary", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-family: "Primary", "Lucida Sans", "Lucida Sans Regular",
+      "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   }
 
-  main {
-    max-width: 500px;
+  .container {
+    max-width: 700px;
+    width: 100%;
+    position: relative;
     margin: 0 auto;
+    display: flex;
+    flex-flow: row;
+    gap: 16px;
+    & > main {
+      flex: 1;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    & > .aside {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 4px;
+    }
   }
 </style>

@@ -9,14 +9,22 @@ import RootLayout from "~/layouts/RootLayout.astro";
 import HeaderPhotoInput from "~/components/client/edit-profile/header-photo-input";
 import AvatarInput from "~/components/client/edit-profile/avatar-input";
 import ApiServices from "~/services/api";
+import SubmitBtn from "~/components/submit-btn.astro";
 
-const { getUserById } = new ApiServices(Astro.url.origin);
+const { getUserById, editUser } = new ApiServices(Astro.url.origin);
 
 const { response: user } = await getUserById(id);
 
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
-  console.log(formData);
+  formData.append(
+    "initial-assets",
+    JSON.stringify({ h_photo: user.headerPhoto, avatar: user.avatar })
+  );
+
+  const { ok } = await editUser(formData, id);
+
+  if (ok) return Astro.redirect("/admin/profile");
 }
 ---
 
@@ -49,14 +57,16 @@ if (Astro.request.method === "POST") {
               placeholder={user?.name}
               name="name"
               id="name"
+              value={user?.name}
             />
           </label>
           <label for="username">
             Nombre de usuario: <input
               type="text"
-              placeholder={user?.username}
+              placeholder={"@" + user?.username}
               name="username"
               id="username"
+              value={user?.username}
             />
           </label>
         </div>
@@ -68,15 +78,15 @@ if (Astro.request.method === "POST") {
             id="bio"
             placeholder={user?.bio
               ? user.bio
-              : "Aquí puedes escribir tu biografía"}></textarea>
+              : "Aquí puedes escribir tu biografía"}
+            value={user?.bio}></textarea>
         </label>
 
         <!-- OTRA INFORMACIÓN -->
-        <div class="admin-profile__container--other-info">
-          <button
-            class="flex flex-1 justify-center py-3 px-5 rounded-xl bg-[rgba(134,290,110,0.8)] transition hover:bg-[rgba(134,290,110,0.9)] hover:scale-[1.04]"
-            >Guardar perfil</button
-          >
+        <div class="admin-profile__container--other-info [&>span]:select-none">
+          <SubmitBtn hoverTitle="Guarda tu perfil" loadingText="Guardando...">
+            Guardar perfil
+          </SubmitBtn>
 
           <span>
             <IconMapPin />
@@ -126,7 +136,8 @@ if (Astro.request.method === "POST") {
       width: 100%;
       height: 220px;
       aspect-ratio: 16/9;
-      border: 1px solid rgb(33, 33, 33);
+      background-color: rgb(250, 250, 250);
+      border: 1px solid rgba(33, 33, 33, 0.2);
       cursor: pointer;
       overflow: hidden;
       transition: box-shadow 0.2s ease-out;
@@ -138,7 +149,7 @@ if (Astro.request.method === "POST") {
         object-position: center;
       }
       &:hover {
-        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+        box-shadow: inset 0 0 16px var(--color_p);
       }
       &:hover > svg {
         transform: scale(1.3);
@@ -162,7 +173,7 @@ if (Astro.request.method === "POST") {
       max-width: 140px;
       width: 100%;
       aspect-ratio: 4/4;
-      border: 5px solid #fff;
+      border: 5px solid rgba(33, 33, 33, 0.1);
       border-radius: 100%;
       background-color: rgb(250, 250, 250);
       cursor: pointer;
@@ -177,7 +188,7 @@ if (Astro.request.method === "POST") {
       }
 
       &:hover {
-        box-shadow: inset 0 0 16px rgba(33, 33, 33, 0.6);
+        box-shadow: inset 0 0 16px var(--color_p);
       }
 
       &:hover > svg {
@@ -217,7 +228,7 @@ if (Astro.request.method === "POST") {
       margin: 10px 0;
       display: flex;
       flex-flow: row;
-      justify-content: end;
+      justify-content: start;
       gap: 10px;
       & > span {
         color: rgba(33, 33, 33, 0.6);
