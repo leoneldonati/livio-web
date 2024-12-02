@@ -17,7 +17,7 @@ export default function PostCard({
       <article className="w-full flex flex-row p-2 gap-1 border-t border-b border-black/60 relative">
         {/* SEPARADOR IZQUIERDO */}
         <div className="[&:hover>article]:opacity-100 [&:hover>article]:scale-100">
-          <a href="/admin/profile">
+          <a href={`/${post.author.username}`}>
             <Avatar
               avatar={post.author.avatar}
               name={post.author.name}
@@ -37,7 +37,7 @@ export default function PostCard({
             </h2>
 
             <span>
-              <a href="/admin/profile">@{post.author.username}</a>
+              <a href={`/${post.author.username}`}>@{post.author.username}</a>
             </span>
 
             <span className="w-1 h-1 rounded-full bg-black/60"></span>

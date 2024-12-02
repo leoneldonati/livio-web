@@ -1,6 +1,7 @@
 ---
 import { format } from "@formkit/tempo";
 import { IconCalendarPlus, IconMapPin } from "@tabler/icons-react";
+import BackBtn from "~/components/back-btn.astro";
 import Avatar from "~/components/client/avatar";
 import PostCard from "~/components/client/post-card";
 import NoPostsText from "~/components/no-posts-text.astro";
@@ -28,6 +29,7 @@ const { response: posts } = (await getPostsByUserid(id)) as {
   <section class="admin-profile">
     <!-- ENCABEZADO SUPERIOR -->
     <header>
+      <BackBtn />
       <div>
         <strong class="admin-profile__name">
           {user?.name}
@@ -148,6 +150,7 @@ const { response: posts } = (await getPostsByUserid(id)) as {
       width: 100%;
       display: flex;
       flex-flow: row;
+      align-items: center;
       padding: 6px 0;
       background-color: rgb(250, 250, 250);
       & > div {

@@ -43,7 +43,7 @@ const { response: user } = await getUserById(id ?? "");
     <li>
       <Anchor
         prefetch
-        href="/admin/profile"
+        href=`/${user.username}`
         hoverTitle="Ir a tu perfil"
         styles="px-5 py-3 rounded-lg transition-colors hover:bg-[rgba(134,290,110,.8)] flex items-center gap-1"
       >
