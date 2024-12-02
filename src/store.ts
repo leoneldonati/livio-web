@@ -14,8 +14,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
     set({ posts: [...oldPosts, newPost] });
   },
   addPosts: (postsFromDb) => {
-    const { posts: oldPosts } = get();
-    set({ posts: [...postsFromDb, ...oldPosts] });
+    set({ posts: postsFromDb });
   },
 }));
 
