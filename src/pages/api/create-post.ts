@@ -30,7 +30,9 @@ export const POST: APIRoute = async ({ request }) => {
     let uploadedAssets = null;
     if (haveAssets) {
       const optimized = await optimize(assets);
-      const uploaded = (await upload(optimized)) as Asset[];
+      const uploaded = (await upload(optimized, {
+        folder: "livio-web/posts",
+      })) as Asset[];
 
       uploadedAssets = uploaded;
     }

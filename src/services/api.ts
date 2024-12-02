@@ -1,4 +1,3 @@
-
 export default class ApiServices {
   private origin: string = "";
   constructor(origin: string) {
@@ -9,38 +8,38 @@ export default class ApiServices {
     try {
       const response = await fetch(`${this.origin}/api/create-user`, {
         method: "POST",
-        body: payload
+        body: payload,
       });
 
       return {
         ok: response.ok,
-        response: await response.json()
-      }
+        response: await response.json(),
+      };
     } catch (e) {
-      console.error(e)
+      console.error(e);
       return {
         ok: false,
-        response: null
-      }
+        response: null,
+      };
     }
   };
   logIn = async (payload: FormData) => {
     try {
       const response = await fetch(`${this.origin}/api/login-user`, {
         method: "POST",
-        body: payload
+        body: payload,
       });
 
       return {
         ok: response.ok,
-        response: await response.json()
-      }
+        response: await response.json(),
+      };
     } catch (e) {
-      console.error(e)
+      console.error(e);
       return {
         ok: false,
-        response: null
-      }
+        response: null,
+      };
     }
   };
 
@@ -52,52 +51,56 @@ export default class ApiServices {
 
       return {
         ok: response.ok,
-        response: await response.json()
-      }
+        response: await response.json(),
+      };
     } catch (e) {
-      console.error(e)
+      console.error(e);
       return {
         ok: false,
-        response: null
-      }
+        response: null,
+      };
     }
-  }
+  };
   getPostsByUserid = async (id: string) => {
     try {
-      const response = await fetch(`${this.origin}/api/get-posts-by?userid=${id}`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `${this.origin}/api/get-posts-by?userid=${id}`,
+        {
+          method: "GET",
+        }
+      );
 
       return {
         ok: response.ok,
-        response: await response.json()
-      }
+        response: await response.json(),
+      };
     } catch (e) {
-      console.error(e)
+      console.error(e);
       return {
         ok: false,
-        response: null
-      }
+        response: null,
+      };
     }
-  }
+  };
   getPosts = async (q: number = 20) => {
     try {
       const response = await fetch(`${this.origin}/api/get-posts?q=${q}`, {
         method: "GET",
       });
 
+      if (!response.ok) throw new Error();
       return {
         ok: response.ok,
-        response: await response.json()
-      }
+        response: await response.json(),
+      };
     } catch (e) {
-      console.error(e)
+      console.error(e);
       return {
         ok: false,
-        response: null
-      }
+        response: null,
+      };
     }
-  }
+  };
 
   createPost = async (payload: FormData) => {
     try {
@@ -108,14 +111,34 @@ export default class ApiServices {
 
       return {
         ok: response.ok,
-        response: await response.json()
-      }
+        response: await response.json(),
+      };
     } catch (e) {
-      console.error(e)
+      console.error(e);
       return {
         ok: false,
-        response: null
-      }
+        response: null,
+      };
     }
-  }
+  };
+
+  editUser = async (payload: FormData, id: string) => {
+    try {
+      const response = await fetch(`${this.origin}/api/edit-profile?id=${id}`, {
+        method: "PATCH",
+        body: payload,
+      });
+
+      return {
+        ok: response.ok,
+        response: await response.json(),
+      };
+    } catch (e) {
+      console.error(e);
+      return {
+        ok: false,
+        response: null,
+      };
+    }
+  };
 }

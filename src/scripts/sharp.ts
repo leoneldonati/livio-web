@@ -6,7 +6,7 @@ export async function optimize(assets: File[]) {
     return sharp(buffer).toFormat("avif").toBuffer();
   });
 
-  const resolvedPromises = await Promise.all(promises)
+  const resolvedPromises = await Promise.all(promises);
 
-  return resolvedPromises
+  return resolvedPromises;
 }

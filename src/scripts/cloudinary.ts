@@ -7,19 +7,25 @@ cld.config({
 });
 
 const { upload_stream } = cld.uploader;
-export async function upload(bufferMap: Buffer[]) {
-  const uploadBuffer = (buffer: Buffer) => {
-    return new Promise((res, rej) => {
-      upload_stream({ folder: "livio-web/posts" }, (error, result) => {
-        if (error) return rej(error);
-        res({
-          publicId: result?.public_id,
-          secureUrl: result?.secure_url,
-          width: result?.width,
-          height: result?.height,
-        });
-      }).end(buffer);
-    });
+export async function upload(
+  bufferMap: Array<Buffer | null>,
+  config?: { folder: string }
+) {
+  const uploadBuffer = (buffer: Buffer | null) => {
+    if (buffer) {
+      return new Promise((res, rej) => {
+        upload_stream({ folder: config?.folder }, (error, result) => {
+          if (error) return rej(error);
+          res({
+            publicId: result?.public_id,
+            secureUrl: result?.secure_url,
+            width: result?.width,
+            height: result?.height,
+          });
+        }).end(buffer);
+      });
+    }
+    return null;
   };
 
   try {
