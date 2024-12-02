@@ -6,18 +6,16 @@ if (!id) return Astro.redirect("/login");
 
 import CreatePostForm from "~/components/client/create-post-form";
 import Feed from "~/components/client/feed";
-import SubmitBtn from "~/components/submit-btn.astro";
 ---
 
 <RootLayout withAside>
   <section class="home">
     <header>
-      <CreatePostForm origin={Astro.url.origin} client:load transition:persist>
-        <SubmitBtn
-          hoverTitle="Comparte lo que sientes"
-          loadingText="Publicando...">Publicar</SubmitBtn
-        >
-      </CreatePostForm>
+      <CreatePostForm
+        origin={Astro.url.origin}
+        client:load
+        transition:persist
+      />
     </header>
 
     <div class="home__container--posts">
@@ -40,7 +38,6 @@ import SubmitBtn from "~/components/submit-btn.astro";
   .home__container--posts {
     display: flex;
     flex-flow: column;
-    border: 1px solid rgba(33, 33, 33, 0.6);
     flex: 1;
   }
 </style>
