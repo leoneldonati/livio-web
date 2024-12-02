@@ -10,6 +10,7 @@ export default function CreatePostForm({
   origin: string;
   children?: ReactNode;
 }) {
+  const [opened, setOpened] = useState(false);
   const [assets, setAssets] = useState<string[] | null>(null);
   const { addOnePost } = usePostStore();
   const { createPost } = new ApiServices(origin);
@@ -47,7 +48,7 @@ export default function CreatePostForm({
   return (
     <form
       encType="multipart/form-data"
-      className="border border-black/80 flex flex-col p-2"
+      className={`border border-black/80 flex flex-col p-2 h-[${opened ? "auto" : "0"}] overflow-hidden`}
       onSubmit={handleSubmit}
     >
       <label htmlFor="content">
