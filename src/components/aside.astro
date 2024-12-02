@@ -17,7 +17,7 @@ const { response: user } = await getUserById(id ?? "");
 ---
 
 <aside class="aside" style=`display: ${id ? "flex" : "none"};`>
-  <Anchor href="/admin/profile" hoverTitle="Ir a tu perfil" prefetch>
+  <Anchor href=`/${user.username}` hoverTitle="Ir a tu perfil" prefetch>
     <Avatar avatar={user?.avatar} name={user?.name} size={90} withLetter />
   </Anchor>
 
@@ -64,11 +64,10 @@ const { response: user } = await getUserById(id ?? "");
 </aside>
 
 <script>
-  const anchors = document.querySelectorAll(
-    ".aside__ul a"
-  ) as NodeListOf<HTMLAnchorElement>;
-
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("astro:page-load", () => {
+    const anchors = document.querySelectorAll(
+      ".aside__ul a"
+    ) as NodeListOf<HTMLAnchorElement>;
     const currentPath = window.location.pathname;
 
     anchors.forEach((a) => {
