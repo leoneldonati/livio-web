@@ -18,3 +18,12 @@ export const usePostStore = create<PostStore>((set, get) => ({
     set({ posts: [...postsFromDb, ...oldPosts] });
   },
 }));
+
+type OriginStore = {
+  origin: string;
+  setOrigin: (origin: string) => void;
+};
+export const useOrigin = create<OriginStore>((set) => ({
+  origin: "",
+  setOrigin: (origin) => set({ origin }),
+}));
