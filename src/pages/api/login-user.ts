@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { userModel } from "~/db";
+import { compareHash } from "~/scripts/bcrypt";
 import { res } from "~/scripts/helpers";
 import { validate } from "~/scripts/zod";
 
@@ -31,6 +32,21 @@ export const POST: APIRoute = async ({ request }) => {
           otherIssues: null,
         },
         404
+      );
+
+    const isMatched = await compareHash(
+      user.password,
+      payload.password.toString()
+    );
+
+    if (!isMatched)
+      return res(
+        {
+          message: "Credenciales inválidas, intenta nuevamente.",
+          status: 401,
+          otherIssues: null,
+        },
+        401
       );
 
     return res({ insertedId: user._id });

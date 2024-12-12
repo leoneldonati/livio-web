@@ -9,3 +9,10 @@ export function encryptString(str: string) {
       return "";
     });
 }
+
+export function compareHash(hash: string, str: string) {
+  return bcrypt
+    .compare(str, hash)
+    .then((isMatched) => isMatched)
+    .catch((err) => false);
+}
