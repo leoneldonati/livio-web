@@ -4,8 +4,8 @@ import { getSessionValue } from "~/scripts/session";
 const id = getSessionValue(Astro);
 if (!id) return Astro.redirect("/login");
 
-import CreatePostForm from "~/components/client/create-post-form";
-import Feed from "~/components/client/feed";
+import CreatePostForm from "~/components/ui/create-post-form";
+import Feed from "~/components/ui/feed";
 ---
 
 <RootLayout withAside>

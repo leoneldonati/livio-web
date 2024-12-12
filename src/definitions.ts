@@ -1,4 +1,4 @@
-type Asset = {
+export type Asset = {
   secureUrl: string;
   publicId: string;
   width: number;
@@ -33,7 +33,7 @@ export interface User {
   followed: Follower[];
 }
 
-interface Author
+export interface Author
   extends Omit<
     User,
     | "headerPhoto"
@@ -57,3 +57,15 @@ export interface Post {
   likes: [];
   responses: [];
 }
+
+export type Notification = {
+  _id: string;
+  type: string;
+  from: string;
+};
+
+export type ApiError = {
+  message: string;
+  status: number;
+  otherIssues: any;
+};

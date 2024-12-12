@@ -36,16 +36,19 @@ export default function LikeBtn({
   };
 
   // UPDATE LIKES EACH 1s
-  const { data } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["update-likes"],
     queryFn: () => updateLikes(),
     select: (data) => data.newLikes as string[],
-    refetchInterval: 4000,
+    refetchInterval: 2000,
   });
   useEffect(() => {
-    const hasLiked = data?.find((like) => like === from);
+    if (!error) {
+      const hasLiked = data?.find((like) => like === from);
 
-    setHasLiked(hasLiked != undefined);
+      setHasLiked(hasLiked != undefined);
+      setCount(data?.length ?? count);
+    }
   }, [data]);
   return (
     <button

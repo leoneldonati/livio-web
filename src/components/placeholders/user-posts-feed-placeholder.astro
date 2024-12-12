@@ -1,0 +1,33 @@
+---
+import { IconLoader3 } from "@tabler/icons-react";
+---
+
+<div class="w-full flex flex-1 justify-center items-center">
+  <div class="flex flex-row gap-1 text-black/60">
+    <strong class="">Cargando</strong><IconLoader3 id="loader" />
+  </div>
+</div>
+
+<style>
+  #loader {
+    animation: spin 2s infinite normal 0.1s ease-in-out;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-90deg);
+    }
+    50% {
+      transform: rotate(90deg);
+    }
+    75% {
+      transform: rotate(-180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>

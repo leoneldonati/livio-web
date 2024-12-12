@@ -1,7 +1,26 @@
 ---
 import RootLayout from "~/layouts/RootLayout.astro";
+import { getSessionValue } from "~/scripts/session";
+import ApiServices from "~/services/api";
+
+const id = getSessionValue(Astro);
+if (!id) return Astro.redirect("/login");
+
+const { getUserById } = new ApiServices(Astro.url.origin);
+
+const { response: user } = await getUserById(id);
 ---
 
-<RootLayout>
-  <section></section>
+<RootLayout title=`Notificaciones - ${user?.name}` withAside>
+  <section class="notifications">
+    <header class="notifications__header">
+      <button> </button>
+    </header>
+  </section>
 </RootLayout>
+
+<style>
+  .notifications {
+    min-height: 100dvh;
+  }
+</style>

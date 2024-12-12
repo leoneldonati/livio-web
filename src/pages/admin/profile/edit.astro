@@ -6,8 +6,8 @@ import { IconCalendarPlus, IconMapPin } from "@tabler/icons-react";
 import { format } from "@formkit/tempo";
 import BackBtn from "~/components/back-btn.astro";
 import RootLayout from "~/layouts/RootLayout.astro";
-import HeaderPhotoInput from "~/components/client/edit-profile/header-photo-input";
-import AvatarInput from "~/components/client/edit-profile/avatar-input";
+import HeaderPhotoInput from "~/components/ui/edit-profile/header-photo-input";
+import AvatarInput from "~/components/ui/edit-profile/avatar-input";
 import ApiServices from "~/services/api";
 import SubmitBtn from "~/components/submit-btn.astro";
 
@@ -24,7 +24,7 @@ if (Astro.request.method === "POST") {
 
   const { ok } = await editUser(formData, id);
 
-  if (ok) return Astro.redirect("/admin/profile");
+  if (ok) return Astro.redirect(`/${user.username}`);
 }
 ---
 

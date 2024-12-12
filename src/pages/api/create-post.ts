@@ -3,7 +3,7 @@ import { ObjectId, postModel, userModel } from "~/db";
 import { res } from "~/scripts/helpers";
 import { optimize } from "~/scripts/sharp";
 import { upload } from "~/scripts/cloudinary";
-import type { Asset, Post } from "~/types";
+import type { Asset, Post } from "~/definitions";
 
 export const POST: APIRoute = async ({ request }) => {
   const session = request.headers.get("cookie");

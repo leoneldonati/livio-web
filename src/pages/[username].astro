@@ -2,26 +2,21 @@
 import { format } from "@formkit/tempo";
 import { IconCalendarPlus, IconMapPin } from "@tabler/icons-react";
 import BackBtn from "~/components/back-btn.astro";
-import Avatar from "~/components/client/avatar";
-import PostCard from "~/components/client/post-card";
-import NoPostsText from "~/components/no-posts-text.astro";
+import Avatar from "~/components/ui/avatar";
+import UserPostsFeedPlaceholder from "~/components/placeholders/user-posts-feed-placeholder.astro";
+import UserPostsFeed from "~/components/user-posts-feed.astro";
 import RootLayout from "~/layouts/RootLayout.astro";
 import { getSessionValue } from "~/scripts/session";
 import ApiServices from "~/services/api";
-import type { Post, User } from "~/types";
+import type { User } from "~/definitions";
 const id = getSessionValue(Astro);
 if (id == null) return Astro.redirect("/login");
 
 const { username } = Astro.params;
-const { getUserByUsername, getPostsByUserid } = new ApiServices(
-  Astro.url.origin
-);
+const { getUserByUsername } = new ApiServices(Astro.url.origin);
 
 const { response: user } = (await getUserByUsername(username!)) as {
   response: User;
-};
-const { response: posts } = (await getPostsByUserid(id)) as {
-  response: Post[];
 };
 ---
 
@@ -34,9 +29,6 @@ const { response: posts } = (await getPostsByUserid(id)) as {
         <strong class="admin-profile__name">
           {user?.name}
         </strong>
-        <small>
-          {posts?.length} publicaciones
-        </small>
       </div>
     </header>
 
@@ -47,18 +39,19 @@ const { response: posts } = (await getPostsByUserid(id)) as {
           <img
             src={user?.headerPhoto.secureUrl}
             alt={`Foto de portada de @${user?.username}`}
+            class="aspect-video object-contain object-center w-full"
           />
         )
       }
     </picture>
 
-    <div class="admin-profile__container--bottom">
+    <div class="admin-profile__container--bottom mb-4">
       <!-- AVATAR -->
 
       <div
         class="w-full absolute flex justify-end -top-14 left-0 z-10 px-[13px]"
       >
-        <div class="flex flex-col items-center gap-3">
+        <div class="flex flex-col items-center gap-2">
           <Avatar avatar={user.avatar} name="Leonel" withLetter size={140} />
 
           <!-- BOTÓN -->
@@ -104,14 +97,14 @@ const { response: posts } = (await getPostsByUserid(id)) as {
         <div>
           <span>
             <strong>
-              {user?.followed.length}
+              {user?.followed?.length}
             </strong>
             Siguiendo
           </span>
 
           <span>
             <strong>
-              {user?.followers.length}
+              {user?.followers?.length}
             </strong>
             Seguidores
           </span>
@@ -119,19 +112,9 @@ const { response: posts } = (await getPostsByUserid(id)) as {
       </div>
     </div>
 
-    <div
-      class="admin-profile__container--posts"
-      style=`justify-content: ${posts.length === 0 && "center"};`
-    >
-      {
-        posts?.length > 0 &&
-          posts.map((post) => (
-            <PostCard post={post} adminId={id} client:visible />
-          ))
-      }
-
-      {posts.length === 0 && <NoPostsText />}
-    </div>
+    <UserPostsFeed userId={id} server:defer>
+      <UserPostsFeedPlaceholder slot="fallback" />
+    </UserPostsFeed>
   </section>
 </RootLayout>
 

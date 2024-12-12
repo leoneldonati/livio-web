@@ -54,6 +54,9 @@ export const POST: APIRoute = async ({ request }) => {
     return res({ insertedId });
   } catch (err) {
     console.error(err);
-    return res({ message: "Error en el servidor.", status: 500 }, 500);
+    return res(
+      { message: "Error en el servidor.", status: 500, otherIssues: null },
+      500
+    );
   }
 };

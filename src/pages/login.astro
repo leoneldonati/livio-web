@@ -1,17 +1,23 @@
 ---
-import OAuthBtn from "~/components/oAuth-btn.astro";
 import SubmitBtn from "~/components/submit-btn.astro";
+import ErrorCard from "~/components/ui/error-card";
 import RootLayout from "~/layouts/RootLayout.astro";
 import ApiServices from "~/services/api";
+import type { ApiError } from "~/definitions";
 const { logIn } = new ApiServices(Astro.url.origin);
 
-let errors = null;
+const ONE_HOUR = 60 * 60 * 1000;
+let errors: ApiError | null = null;
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
   const { ok, response } = await logIn(formData);
 
   if (ok) {
-    Astro.cookies.set("session", response.insertedId, {});
+    Astro.cookies.set("session", response.insertedId, {
+      httpOnly: true,
+      secure: true,
+      expires: new Date(Date.now() + ONE_HOUR),
+    });
     return Astro.redirect("/");
   }
 
@@ -48,16 +54,15 @@ if (Astro.request.method === "POST") {
         </SubmitBtn>
       </form>
 
-      <div id="separator">
+      <!-- <div id="separator">
         <span></span>
         <span>O CONTINUAR CON</span>
       </div>
 
-      <div class="sign__container--o-auth-btn">
-        <!-- BOTONES DE CADA PROVEEDOR OAUTH DISPONIBLE -->
+       <div class="sign__container--o-auth-btn ">
         <OAuthBtn provider="GITHUB" />
         <OAuthBtn provider="INSTAGRAM" />
-      </div>
+      </div> -->
 
       <small>
         ¿No tienes una cuenta? <a href="/sign" style="color: rgba(33,33,33,.8);"
@@ -65,6 +70,17 @@ if (Astro.request.method === "POST") {
         >
       </small>
     </div>
+
+    {
+      errors && (
+        <ErrorCard
+          otherIssues={errors.otherIssues}
+          message={errors.message}
+          status={errors.status}
+          client:visible
+        />
+      )
+    }
   </section>
 </RootLayout>
 <style>
@@ -91,7 +107,7 @@ if (Astro.request.method === "POST") {
     /* formulario */
     .sign__form {
       font-size: larger;
-      max-width: 300px;
+      max-width: 340px;
       width: 100%;
       display: flex;
       flex-flow: column;

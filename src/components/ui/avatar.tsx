@@ -1,4 +1,4 @@
-import type { Asset } from "~/types";
+import type { Asset } from "~/definitions";
 import defaultAvatar from "~/assets/user.png";
 
 export default function Avatar({
@@ -16,14 +16,14 @@ export default function Avatar({
 }) {
   const firstLetter = name?.charAt(0);
   return (
-    <div className="relative">
+    <div className="relative backdrop-blur-md rounded-full overflow-hidden aspect-square border-4 border-white">
       <img
         src={avatar?.secureUrl ?? defaultAvatar.src}
         alt={name}
         loading="lazy"
         width={size || avatar?.width}
         height={size || avatar?.height}
-        className={`object-cover object-center rounded-full aspect-square ${className}`}
+        className={`object-cover object-center aspect-square ${className}`}
       />
 
       {!avatar && withLetter && (

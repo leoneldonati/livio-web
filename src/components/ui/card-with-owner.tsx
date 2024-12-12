@@ -1,9 +1,9 @@
-import type { Author } from "~/types";
+import type { Author } from "~/definitions";
 import Avatar from "./avatar";
 
 export default function CardWithOwner({ owner }: { owner: Author }) {
   return (
-    <article className="absolute bg-black/75 backdrop-blur-md p-4 rounded-md text-white opacity-0 pointer-events-none scale-50 transition">
+    <article className="absolute bottom-2 z-50 bg-black/75 backdrop-blur-md p-4 rounded-md text-white opacity-0 pointer-events-none scale-50 transition">
       <div className="flex items-center gap-2">
         <a href="/admin/profile">
           <Avatar

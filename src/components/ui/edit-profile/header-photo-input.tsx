@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Asset } from "~/types";
+import type { Asset } from "~/definitions";
 
 export default function HeaderPhotoInput({
   headerPhoto,
