@@ -14,9 +14,9 @@ if (Astro.request.method === "POST") {
 
   if (ok) {
     Astro.cookies.set("session", response.insertedId, {
-      httpOnly: true,
-      secure: true,
-      expires: new Date(Date.now() + ONE_HOUR),
+      // httpOnly: true,
+      // secure: true,
+      // expires: new Date(Date.now() + ONE_HOUR),
     });
     return Astro.redirect("/");
   }
