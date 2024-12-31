@@ -8,7 +8,7 @@ import Feed from "~/components/ui/feed";
 ---
 
 <RootLayout withAside>
-  <section class="min-h-screen relative">
-    <Feed origin={Astro.url.origin} adminId={id} client:only="react" />
+  <section class="min-h-screen relative w-full">
+    <Feed origin={Astro.url.origin} adminId={id} client:load />
   </section>
 </RootLayout>
