@@ -1,7 +1,7 @@
 ---
 import ApiServices from "~/services/api";
 import type { Post } from "~/definitions";
-import PostCard from "./ui/post-card";
+import PostCard from "./ui/post";
 import NoPostsText from "./no-posts-text.astro";
 interface Props {
   userId: string;
@@ -18,12 +18,17 @@ const { response: posts } = (await getPostsByUserid(userId)) as {
   class="admin-profile__container--posts"
   style=`justify-content: ${posts?.length === 0 && "center"};`
 >
-  <!-- {
+  {
     posts?.length > 0 &&
       posts.map((post) => (
-          <PostCard post={post} adminId={userId} client:visible />
+        <PostCard
+          post={post}
+          adminId={userId}
+          client:visible
+          origin={Astro.url.origin}
+        />
       ))
-  } -->
+  }
 
   {posts.length === 0 && <NoPostsText />}
 </div>

@@ -7,7 +7,7 @@ type Props = {
 export default function PostAssets({ id, assets }: Props) {
   return (
     <picture
-      className={`grid grid-cols-2 ${assets.length > 2 && "grid-rows-2"} ${assets.length < 2 && "grid-rows-1"} gap-2 w-full overflow-hidden rounded-md shadow shadow-black/30 my-3`}
+      className={`grid ${assets.length < 2 ? "grid-cols-1" : "grid-cols-2"} ${assets.length > 2 && "grid-rows-2"} ${assets.length < 2 && "grid-rows-1"} gap-2 w-full overflow-hidden rounded-md shadow shadow-black/30 my-3`}
     >
       {assets.map((asset, index) => (
         <a

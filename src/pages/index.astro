@@ -4,40 +4,11 @@ import { getSessionValue } from "~/scripts/session";
 const id = getSessionValue(Astro);
 if (!id) return Astro.redirect("/login");
 
-import CreatePostForm from "~/components/ui/create-post-form";
 import Feed from "~/components/ui/feed";
 ---
 
 <RootLayout withAside>
-  <section class="home">
-    <header>
-      <CreatePostForm
-        origin={Astro.url.origin}
-        client:load
-        transition:persist
-      />
-    </header>
-
-    <div class="home__container--posts">
-      <Feed
-        origin={Astro.url.origin}
-        adminId={id}
-        client:load
-        transition:persist
-      />
-    </div>
+  <section class="min-h-screen relative">
+    <Feed origin={Astro.url.origin} adminId={id} client:only="react" />
   </section>
 </RootLayout>
-
-<style>
-  .home {
-    min-height: 100dvh;
-    display: flex;
-    flex-flow: column;
-  }
-  .home__container--posts {
-    display: flex;
-    flex-flow: column;
-    flex: 1;
-  }
-</style>

@@ -53,7 +53,7 @@ export const POST: APIRoute = async ({ request }) => {
         webSite: author!.webSite,
       },
       likes: [],
-      responses: [],
+      comments: [],
       created: new Date(),
       modified: new Date(),
     };

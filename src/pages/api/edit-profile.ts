@@ -77,7 +77,6 @@ export const PATCH: APIRoute = async ({ request, url }) => {
         returnDocument: "after",
       }
     );
-    console.log(updatedUser);
     return res({});
   } catch (e) {
     return res({}, 500);

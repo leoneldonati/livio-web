@@ -17,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
         status: 400,
         message: "Algunos datos no son válidos, por favor revísalos.",
         otherIssues: issues,
-      });
+      }, 400);
 
     const isRegistred = await userModel.findOne({ email: payload.email });
 

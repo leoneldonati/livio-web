@@ -1,27 +1,38 @@
 import { useState } from "react";
 import ApiServices from "~/services/api";
-import { usePostStore } from "~/store";
 import Carousel from "./carousel";
+import usePosts from "~/hooks/usePosts";
 
 export default function CreatePostForm({ origin }: { origin: string }) {
   const [assets, setAssets] = useState<string[] | null>(null);
+  const [loading, setLoading] = useState(false);
   const [content, setContent] = useState("");
-  const { addOnePost } = usePostStore();
+  const { addOnePost } = usePosts(origin);
   const { createPost } = new ApiServices(origin);
 
   // MANEJAR ENVIO DE FORMULARIO
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setLoading(true);
     const form = new FormData(e.target as HTMLFormElement);
-    createPost(form).then(({ ok, response }) => {
-      if (ok) {
-        addOnePost(response);
+    createPost(form)
+      .then(({ ok, response }) => {
+        if (ok) {
+          addOnePost(response);
 
+          setAssets(null);
+          setContent("");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
         setAssets(null);
         setContent("");
-      }
-    });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   // MANEJAR CAMBIO DE ESTADO DEL INPUT FILES
@@ -111,7 +122,7 @@ export default function CreatePostForm({ origin }: { origin: string }) {
         type="submit"
         className="px-6 py-3 rounded-xl bg-[rgba(134,290,110,0.8)] w-fit mx-auto"
       >
-        Publicar
+        {loading ? "Publicando..." : "Publicar"}
       </button>
     </form>
   );

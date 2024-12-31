@@ -55,8 +55,13 @@ export interface Post {
   created: Date;
   modified: Date;
   likes: [];
-  responses: [];
+  comments: Comment[];
 }
+export type Comment = {
+  _id: string;
+  ownerId: string;
+  content: string;
+};
 
 export type Notification = {
   _id: string;

@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import PostActions from "~/services/posts";
-import { useOrigin } from "~/store";
 
 export default function LikeBtn({
+  origin,
   initialState,
   from,
   postId,
 }: {
+  origin: string;
   initialState: string[];
   from: string;
   postId: string;
@@ -16,7 +17,6 @@ export default function LikeBtn({
   const [hasLiked, setHasLiked] = useState(
     initialState.find((like) => like === from) != undefined
   );
-  const { origin } = useOrigin();
   const { giveLike, quitLike, updateLikes } = new PostActions(
     from,
     postId,
@@ -25,22 +25,20 @@ export default function LikeBtn({
 
   const handleClick = async () => {
     !hasLiked ? setHasLiked(true) : setHasLiked(false);
+    !hasLiked ? setCount(count + 1) : setCount(count - 1);
 
     const { newLikes } = !hasLiked ? await giveLike() : await quitLike();
-
-    setCount(newLikes?.length);
 
     const hasLikedByUser =
       newLikes?.find((like: string) => like === from) != undefined;
     setHasLiked(hasLikedByUser);
   };
 
-  // UPDATE LIKES EACH 1s
+  // UPDATE LIKES EACH 2s
   const { data, error } = useQuery({
     queryKey: ["update-likes"],
     queryFn: () => updateLikes(),
     select: (data) => data.newLikes as string[],
-    refetchInterval: 2000,
   });
   useEffect(() => {
     if (!error) {
@@ -52,7 +50,7 @@ export default function LikeBtn({
   }, [data]);
   return (
     <button
-      className="flex flex-row items-end gap-1 transition"
+      className="flex flex-row items-end gap-1 transition [&:hover>svg]:scale-105"
       onClick={handleClick}
       style={{
         filter: hasLiked ? `drop-shadow(0 0 6px rgb(220,20,60))` : "",
@@ -63,7 +61,7 @@ export default function LikeBtn({
       <svg
         viewBox="0 0 24 24"
         aria-hidden="true"
-        className="w-6 h-auto transition-colors text-inherit fill-inherit"
+        className="w-6 h-auto transition text-inherit fill-inherit"
         style={{
           fill: hasLiked ? `rgb(220,20,60)` : "",
         }}

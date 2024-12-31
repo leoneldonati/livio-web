@@ -20,7 +20,11 @@ const { response: user } = (await getUserByUsername(username!)) as {
 };
 ---
 
-<RootLayout title=`@${user?.username} - Perfil.` withAside>
+<RootLayout
+  title=`${user?.name} (@${user?.username}) - Livio.`
+  withAside
+  faviconHref={user?.avatar?.secureUrl}
+>
   <section class="admin-profile">
     <!-- ENCABEZADO SUPERIOR -->
     <header>
@@ -33,17 +37,18 @@ const { response: user } = (await getUserByUsername(username!)) as {
     </header>
 
     <!-- FOTO DE PORTADA -->
-    <picture class="admin-profile__header-photo">
-      {
-        user?.headerPhoto && (
-          <img
-            src={user?.headerPhoto.secureUrl}
-            alt={`Foto de portada de @${user?.username}`}
-            class="aspect-video object-contain object-center w-full"
-          />
-        )
-      }
-    </picture>
+    {
+      user?.headerPhoto && (
+        <img
+          src={user?.headerPhoto.secureUrl}
+          alt={`Foto de portada de @${user?.username}`}
+          class="aspect-video h-[200px] object-cover object-center w-full"
+          loading="lazy"
+          width={user?.headerPhoto.width}
+          height={user?.headerPhoto.height}
+        />
+      )
+    }
 
     <div class="admin-profile__container--bottom mb-4">
       <!-- AVATAR -->
@@ -145,20 +150,6 @@ const { response: user } = (await getUserByUsername(username!)) as {
         margin-left: 6px;
       }
     }
-
-    /* FOTO DE PORTADA */
-    .admin-profile__header-photo {
-      width: 100%;
-      height: 220px;
-      aspect-ratio: 16/9;
-      border: 1px solid rgb(33, 33, 33);
-      overflow: hidden;
-
-      & > img {
-        aspect-ratio: 16 / 9;
-        object-fit: cover;
-      }
-    }
   }
 
   .admin-profile__container--bottom {
@@ -178,7 +169,7 @@ const { response: user } = (await getUserByUsername(username!)) as {
 
     /* BIOGRAFÍA */
     .admin-profile__bio {
-      max-width: 46ch;
+      max-width: 30ch;
     }
 
     /* OTRA INFORMACIÓN */
