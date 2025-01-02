@@ -1,0 +1,19 @@
+---
+import ApiServices from "~/services/api";
+import AnchorAside from "./ui/anchor-aside";
+import Avatar from "./ui/avatar";
+import { getSessionValue } from "~/scripts/session";
+
+const id = getSessionValue(Astro);
+const { getUserById } = new ApiServices(Astro.url.origin);
+
+const { response: user } = await getUserById(id ?? "");
+---
+
+<AnchorAside
+  href=`/${user.username}`
+  hoverTitle="Ir a tu perfil"
+  styles="hidden md:flex"
+>
+  <Avatar avatar={user?.avatar} name={user?.name} size={90} withLetter />
+</AnchorAside>

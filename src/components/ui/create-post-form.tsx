@@ -1,13 +1,13 @@
 import { useState } from "react";
 import ApiServices from "~/services/api";
 import Carousel from "./carousel";
-import usePosts from "~/hooks/usePosts";
+import { useStore } from "~/store";
 
 export default function CreatePostForm({ origin }: { origin: string }) {
   const [assets, setAssets] = useState<string[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState("");
-  const { addOnePost } = usePosts(origin);
+  const { addOnePost } = useStore();
   const { createPost } = new ApiServices(origin);
 
   // MANEJAR ENVIO DE FORMULARIO
@@ -65,7 +65,7 @@ export default function CreatePostForm({ origin }: { origin: string }) {
   return (
     <form
       encType="multipart/form-data"
-      className={`border-t border-b border-black/60 flex flex-col p-2 overflow-hidden`}
+      className="border-t border-b border-black/60 flex flex-col p-2 overflow-hidden sticky top-0 bg-white z-10"
       onSubmit={handleSubmit}
     >
       <label htmlFor="content">
@@ -118,10 +118,7 @@ export default function CreatePostForm({ origin }: { origin: string }) {
         </svg>
       </label>
 
-      <button
-        type="submit"
-        className="px-6 py-3 rounded-xl bg-[rgba(134,290,110,0.8)] w-fit mx-auto"
-      >
+      <button className="px-6 py-3 rounded-xl bg-[rgba(134,290,110,0.8)] w-fit mx-auto">
         {loading ? "Publicando..." : "Publicar"}
       </button>
     </form>

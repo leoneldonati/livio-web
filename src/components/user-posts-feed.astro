@@ -32,3 +32,15 @@ const { response: posts } = (await getPostsByUserid(userId)) as {
 
   {posts.length === 0 && <NoPostsText />}
 </div>
+
+<style>
+  .admin-profile__container--posts {
+    width: 100%;
+    margin: 20px 0 0 0;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    flex: 1;
+    border-top: 1px solid rgba(33, 33, 33, 0.6);
+  }
+</style>

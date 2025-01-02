@@ -12,7 +12,10 @@ export const GET: APIRoute = async ({ url }) => {
     );
 
   try {
-    const posts = await postModel.find({ "author._id": userId }).toArray();
+    const posts = await postModel
+      .find({ "author._id": userId })
+      .sort("created", -1)
+      .toArray();
 
     return res(posts);
   } catch (err) {

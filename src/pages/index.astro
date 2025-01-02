@@ -5,10 +5,13 @@ const id = getSessionValue(Astro);
 if (!id) return Astro.redirect("/login");
 
 import Feed from "~/components/ui/feed";
+import CreatePostForm from "~/components/ui/create-post-form";
 ---
 
 <RootLayout withAside>
-  <section class="min-h-screen relative w-full">
+  <section class="w-full max-w-[500px] mx-auto">
+    <CreatePostForm origin={Astro.url.origin} client:load />
+
     <Feed origin={Astro.url.origin} adminId={id} client:load />
   </section>
 </RootLayout>

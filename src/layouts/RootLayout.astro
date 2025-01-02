@@ -36,20 +36,18 @@ const defaultFavicon = "/favicon.png";
   </head>
 
   <body>
-    <div
-      class="relative max-w-[700px] w-full h-screen mx-auto flex md:flex-row flex-col gap-[16px]"
+    <main
+      class="flex justify-center relative w-full h-screen mx-auto max-w-[900px] overflow-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
     >
-      <main class="flex flex-1 max-w-[530px] w-full mx-auto">
-        <slot />
-      </main>
+      <slot />
       {
         withAside && (
-          <Aside server:defer transition:persist>
+          <Aside transition:persist>
             <AsidePlaceholder slot="fallback" />
           </Aside>
         )
       }
-    </div>
+    </main>
   </body>
 </html>
 
@@ -69,5 +67,11 @@ const defaultFavicon = "/favicon.png";
   body {
     font-family: "Primary", "Lucida Sans", "Lucida Sans Regular",
       "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  }
+
+  main {
+    scrollbar-width: thin;
+    scrollbar-color: #000 var(--color_shadow);
+    padding: 0 3rem;
   }
 </style>

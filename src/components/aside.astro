@@ -2,32 +2,29 @@
 import {
   IconBellRinging2,
   IconHome2,
+  IconLogout,
   IconUser,
   IconUserSearch,
 } from "@tabler/icons-react";
 import Anchor from "./ui/anchor-aside";
-import Avatar from "./ui/avatar";
-import ApiServices from "~/services/api";
 import { getSessionValue } from "~/scripts/session";
+import AsideAvatar from "./aside-avatar.astro";
+import AsideAnchor from "./aside-anchor.astro";
 
 const id = getSessionValue(Astro);
-const { getUserById } = new ApiServices(Astro.url.origin);
-
-const { response: user } = await getUserById(id ?? "");
 ---
 
 <aside
-  class="fixed w-full md:w-fit md:relative bottom-0 md:top-0 flex flex-row md:flex-col items-center backdrop-blur gap-[16px] py-[10px] px-[4px]"
+  class="sticky w-fit top-0 flex flex-col items-center backdrop-blur gap-[16px] py-[10px] px-[4px]"
   style=`display: ${id ? "flex" : "none"};`
 >
-  <Anchor
-    href=`/${user.username}`
-    hoverTitle="Ir a tu perfil"
-    styles="hidden md:flex"
-  >
-    <Avatar avatar={user?.avatar} name={user?.name} size={90} withLetter />
-  </Anchor>
-
+  <AsideAvatar server:defer>
+    <img
+      src=""
+      class="w-[90px] h-[90px] rounded-full bg-gray-300 animate-pulse"
+      slot="fallback"
+    />
+  </AsideAvatar>
   <ul
     class="flex flex-row-reverse justify-center md:justify-self-start w-full md:flex-col"
   >
@@ -54,15 +51,16 @@ const { response: user } = await getUserById(id ?? "");
       </Anchor>
     </li>
     <li>
-      <Anchor
-        href=`/${user.username}`
-        hoverTitle="Ir a tu perfil"
-        styles="px-5 py-3 rounded-lg transition-colors hover:bg-[rgba(134,290,110,.8)] flex items-center gap-1"
-        client:visible
-      >
-        <IconUser />
-        <span class="hidden md:block">Perfil</span>
-      </Anchor>
+      <AsideAnchor server:defer>
+        <a
+          href="#"
+          class="px-5 py-3 rounded-lg transition-colors hover:bg-[rgba(134,290,110,.8)] flex items-center gap-1"
+          slot="fallback"
+        >
+          <IconUser />
+          <span class="hidden md:block">Perfil</span>
+        </a>
+      </AsideAnchor>
     </li>
     <li>
       <Anchor
@@ -76,4 +74,14 @@ const { response: user } = await getUserById(id ?? "");
       </Anchor>
     </li>
   </ul>
+
+  <div>
+    <Anchor
+      href="/logout"
+      hoverTitle="¡Cerrar sesión!"
+      styles="px-5 py-3 rounded-lg transition-colors hover:bg-[rgba(134,290,110,.8)] flex flex-row items-center gap-1"
+    >
+      <IconLogout /> Cerrar sesión
+    </Anchor>
+  </div>
 </aside>

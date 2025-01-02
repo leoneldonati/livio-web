@@ -1,9 +1,9 @@
 import PostCard from "./post";
-import QueryProvider from "./query-provider";
-import CreatePostForm from "./create-post-form";
 import SyncLoader from "react-spinners/SyncLoader";
-import usePosts from "~/hooks/usePosts";
 import HasNewPostsBtn from "./has-new-posts-btn";
+import { useStore } from "~/store";
+import { useEffect } from "react";
+import ApiServices from "~/services/api";
 
 export default function Feed({
   origin,
@@ -12,28 +12,29 @@ export default function Feed({
   origin: string;
   adminId: string;
 }) {
-  const {
-    posts: savedPosts,
-    newPosts,
-    loading,
-    hasNewPosts,
-    addPosts,
-  } = usePosts(origin);
+  const { getPosts } = new ApiServices(origin);
 
+  const { posts: savedPosts, loading, addPosts, setLoading } = useStore();
+
+  // GET POSTS IN THE FIRST RENDER
+  useEffect(() => {
+    if (savedPosts.length !== 0) return;
+    setLoading(true);
+    getPosts(10)
+      .then(({ ok, response }) => {
+        if (!ok) return;
+        addPosts(response);
+      })
+      .finally(() => setLoading(false));
+  }, []);
   return (
-    <QueryProvider>
-      {/* CREATE POST */}
-      <CreatePostForm origin={origin} />
-
-      {/* NEW POSTS BTN */}
-      <div className="relative w-full">
-        <HasNewPostsBtn
-          hasNewPosts={hasNewPosts}
-          newPostsLength={newPosts.length}
-          handler={addPosts}
-        />
-      </div>
-
+    <>
+      {/* NEW POSTS BTN
+      <HasNewPostsBtn
+        hasNewPosts={hasNewPosts}
+        newPostsLength={newPosts.length}
+        handler={addPosts}
+      /> */}
       {/* POSTS */}
       {savedPosts.map((post) => (
         <PostCard
@@ -43,7 +44,6 @@ export default function Feed({
           origin={origin}
         />
       ))}
-
       {/* LOADER */}
       {loading && (
         <SyncLoader
@@ -58,6 +58,6 @@ export default function Feed({
           }}
         />
       )}
-    </QueryProvider>
+    </>
   );
 }

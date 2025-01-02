@@ -25,11 +25,15 @@ const { response: user } = (await getUserByUsername(username!)) as {
   withAside
   faviconHref={user?.avatar?.secureUrl}
 >
-  <section class="admin-profile">
+  <section
+    class="min-h-screen relative w-full max-w-[500px] mx-auto flex flex-col pt-[48px]"
+  >
     <!-- ENCABEZADO SUPERIOR -->
-    <header>
+    <header
+      class="absolute top-0 z-30 w-full flex flex-row items-center px-[13px] py-[6px] bg-white"
+    >
       <BackBtn />
-      <div>
+      <div class="flex flex-col ml-6">
         <strong class="admin-profile__name">
           {user?.name}
         </strong>
@@ -50,7 +54,7 @@ const { response: user } = (await getUserByUsername(username!)) as {
       )
     }
 
-    <div class="admin-profile__container--bottom mb-4">
+    <div class="relative px-[13px] mb-4">
       <!-- AVATAR -->
 
       <div
@@ -71,34 +75,36 @@ const { response: user } = (await getUserByUsername(username!)) as {
       </div>
 
       <!-- NOMBRE Y NOMBRE DE USUARIO -->
-      <div class="admin-profile__container--names">
-        <h1>
+      <div class="my-[10px]">
+        <h1 class="font-bold">
           {user?.name}
         </h1>
-        <small>
+        <small class="text-black/70">
           @{user?.username}
         </small>
       </div>
 
       <!-- BIO -->
-      <p class="admin-profile__bio">
+      <p class="max-w-[30ch]">
         {user?.bio}
       </p>
 
       <!-- OTRA INFORMACIÓN -->
-      <div class="admin-profile__container--other-info">
-        <span>
+      <div class="my-[10px] flex flex-row gap-[10px] text-black/70">
+        <span id="info">
           <IconMapPin />
           {user?.location?.country ? user.location.country : "Sin ubicación"}
         </span>
 
-        <span>
+        <span id="info">
           <IconCalendarPlus /> Te uniste: {format(user?.created, "medium")}
         </span>
       </div>
 
       <!-- SEGUIDORES -->
-      <div class="admin-profile__container--followers">
+      <div
+        class="admin-profile__container--followers flex flex-row items-center justify-between"
+      >
         <div>
           <span>
             <strong>
@@ -124,86 +130,25 @@ const { response: user } = (await getUserByUsername(username!)) as {
 </RootLayout>
 
 <style>
-  .admin-profile {
-    min-height: 100dvh;
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
+  #info {
+    width: fit-content;
     display: flex;
-    flex-flow: column;
-    padding-top: 48px;
-
-    /* ENCABEZADO SUPERIOR */
-    & > header {
-      position: absolute;
-      top: 0;
-      z-index: 3;
-      width: 100%;
-      display: flex;
-      flex-flow: row;
-      align-items: center;
-      padding: 6px 13px;
-      background-color: rgb(250, 250, 250);
-      & > div {
-        display: flex;
-        flex-flow: column;
-        margin-left: 6px;
-      }
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-size: 14px;
+  }
+  /* SEGUIDORES Y SEGUIDOS */
+  .admin-profile__container--followers {
+    & > span > strong {
+      color: #000;
+    }
+    & > span {
+      color: rgba(33, 33, 33, 0.7);
     }
   }
 
-  .admin-profile__container--bottom {
-    position: relative;
-    padding: 0 13px;
-
-    /* USERNAME & NAME CONTAINER */
-    .admin-profile__container--names {
-      margin: 10px 0;
-      & > h1 {
-        font-weight: bold;
-      }
-      & > small {
-        color: rgba(33, 33, 33, 0.7);
-      }
-    }
-
-    /* BIOGRAFÍA */
-    .admin-profile__bio {
-      max-width: 30ch;
-    }
-
-    /* OTRA INFORMACIÓN */
-    .admin-profile__container--other-info {
-      margin: 10px 0;
-      display: flex;
-      flex-flow: row;
-      gap: 10px;
-      color: rgba(33, 33, 33, 0.6);
-      & > span {
-        width: fit-content;
-        display: flex;
-        flex-flow: row;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-        font-size: 14px;
-      }
-    }
-
-    /* SEGUIDORES Y SEGUIDOS */
-    .admin-profile__container--followers {
-      display: flex;
-      flex-flow: row;
-      align-items: center;
-      justify-content: space-between;
-      & > span > strong {
-        color: #000;
-      }
-      & > span {
-        color: rgba(33, 33, 33, 0.7);
-      }
-    }
-  }
   /* BOTÓN EDITAR PERFIL */
   .admin-profile__edit-btn {
     width: fit-content;
@@ -224,14 +169,5 @@ const { response: user } = (await getUserByUsername(username!)) as {
     &:active {
       transform: scale(1);
     }
-  }
-  .admin-profile__container--posts {
-    width: 100%;
-    margin: 20px 0 0 0;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    flex: 1;
-    border-top: 1px solid rgba(33, 33, 33, 0.6);
   }
 </style>

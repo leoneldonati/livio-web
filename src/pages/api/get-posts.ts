@@ -8,13 +8,13 @@ export const GET: APIRoute = async ({ url }) => {
 
   const limit = parseInt(q);
   try {
-    const posts = await postModel.find().limit(limit).toArray();
+    const posts = await postModel
+      .find()
+      .limit(limit)
+      .sort("created", -1)
+      .toArray();
 
-    const sortedPosts = posts.toSorted(
-      (a, b) => new Date(a.created).getDate() - new Date(b.created).getDate()
-    );
-    console.log(sortedPosts);
-    return res(sortedPosts);
+    return res(posts);
   } catch (e) {
     console.log(e);
     return res({}, 500);

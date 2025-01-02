@@ -1,0 +1,21 @@
+---
+import { IconUser } from "@tabler/icons-react";
+import { getSessionValue } from "~/scripts/session";
+import ApiServices from "~/services/api";
+import Anchor from "./ui/anchor-aside";
+
+const id = getSessionValue(Astro);
+const { getUserById } = new ApiServices(Astro.url.origin);
+
+const { response: user } = await getUserById(id ?? "");
+---
+
+<Anchor
+  href=`/${user.username}`
+  hoverTitle="Ir a tu perfil"
+  styles="px-5 py-3 rounded-lg transition-colors hover:bg-[rgba(134,290,110,.8)] flex items-center gap-1"
+  client:visible
+>
+  <IconUser />
+  <span class="hidden md:block">Perfil</span>
+</Anchor>
