@@ -28,10 +28,10 @@ export default class ApiServices {
       const response = await fetch(`${this.origin}/api/login-user`, {
         method: "POST",
         body: payload,
+        credentials: "include",
       });
 
       if (!response.ok) {
-        console.log(await response.text());
         return { ok: false, response: null };
       }
       return {

@@ -19,7 +19,7 @@ export const POST: APIRoute = async ({ request }) => {
           status: 404,
           otherIssues: issues,
         },
-        400
+        { status: 400 }
       );
     const user = await userModel.findOne({ email: payload.email });
 
@@ -31,7 +31,7 @@ export const POST: APIRoute = async ({ request }) => {
           status: 404,
           otherIssues: null,
         },
-        404
+        { status: 404 }
       );
 
     const isMatched = await compareHash(
@@ -46,14 +46,14 @@ export const POST: APIRoute = async ({ request }) => {
           status: 401,
           otherIssues: null,
         },
-        401
+        { status: 401 }
       );
 
-    return res({ insertedId: user._id });
+    return res({ insertedId: user._id }, { cookie: user._id.toString() });
   } catch (e) {
     return res(
       { message: "Error en el servidor.", status: 500, otherIssues: null },
-      500
+      { status: 500 }
     );
   }
 };
