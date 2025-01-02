@@ -4,7 +4,7 @@ export const res = (payload: object | string, status: StatusResponse = null) =>
     status: status ?? 200,
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": import.meta.env.DOMAIN,
+      "Access-Control-Allow-Origin": import.meta.env.DOMAIN ?? "*",
       "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PATCH, DELETE",
       "Access-Control-Allow-Headers": "Content-Type",
     },
