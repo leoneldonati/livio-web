@@ -30,8 +30,12 @@ export default class ApiServices {
         body: payload,
       });
 
+      if (!response.ok) {
+        console.log(await response.text());
+        return { ok: false, response: null };
+      }
       return {
-        ok: response.ok,
+        ok: true,
         response: await response.json(),
       };
     } catch (e) {
